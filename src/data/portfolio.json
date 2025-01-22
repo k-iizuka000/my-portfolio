@@ -1,0 +1,42 @@
+{
+  "about": {
+    "title": "About Me",
+    "description": "10年以上のシステム開発経験を持つフルスタックエンジニアです。特に既存システムの改修・保守を得意とし、レガシーシステムのモダン化やパフォーマンス改善に携わってきました。"
+  },
+  "skills": [
+    {
+      "name": "Java",
+      "years": 10,
+      "projects": "通信会社Web, COBOLリプレース",
+      "notes": "Spring, JavaEE中心"
+    },
+    {
+      "name": "Python",
+      "years": 5,
+      "projects": "データ分析, 自動化ツール",
+      "notes": "Django, Flask経験あり"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Push通知機能の新規開発",
+      "tech": "Ruby on Rails, Docker, Vue.js",
+      "role": "画面の詳細設計～製造・試験を担当",
+      "points": ["Dockerでコンテナ化", "CI/CD導入", "WebPush実装"]
+    },
+    {
+      "title": "レガシーシステムのモダン化",
+      "tech": "Java, Spring Boot, React",
+      "role": "バックエンド開発・インフラ構築",
+      "points": ["マイクロサービス化", "クラウド移行", "パフォーマンス改善"]
+    }
+  ],
+  "inProgress": [
+    {
+      "title": "個人用タスク管理アプリ",
+      "status": "UI実装中",
+      "description": "プログラマー向けのGTDアプリ",
+      "completion": "70%"
+    }
+  ]
+}

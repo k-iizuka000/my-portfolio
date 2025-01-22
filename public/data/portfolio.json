@@ -1,0 +1,30 @@
+{
+  "about": {
+    "name": "Kei",
+    "title": "フルスタックエンジニア",
+    "description": "フロントエンドからバックエンドまで幅広く開発経験があります。"
+  },
+  "skills": {
+    "frontend": ["React", "Next.js", "TypeScript", "Tailwind CSS"],
+    "backend": ["Node.js", "Python", "GraphQL"],
+    "other": ["Git", "Docker", "AWS"]
+  },
+  "projects": [
+    {
+      "id": 1,
+      "title": "ポートフォリオサイト",
+      "description": "Next.js と TypeScript を使用して作成した個人ポートフォリオサイト",
+      "technologies": ["Next.js", "TypeScript", "Tailwind CSS"],
+      "github": "https://github.com/username/portfolio"
+    }
+  ],
+  "inProgress": [
+    {
+      "id": 1,
+      "title": "個人ブログ",
+      "description": "技術ブログサイトを開発中",
+      "technologies": ["Next.js", "MDX", "Tailwind CSS"],
+      "status": "開発中"
+    }
+  ]
+} 
