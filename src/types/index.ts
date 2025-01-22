@@ -13,7 +13,7 @@ export interface ProjectData {
   title: string;
   description: string;
   technologies: string[];
-  github: string;
+  github?: string;
 }
 
 export interface InProgressData {

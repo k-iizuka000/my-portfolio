@@ -11,30 +11,30 @@ export const Skills: React.FC<SkillsProps> = ({ skills }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* フロントエンド */}
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-4">フロントエンド</h3>
+            <h3 className="text-xl font-semibold mb-4 card-heading">フロントエンド</h3>
             <ul className="space-y-2">
               {skills.frontend.map((skill, index) => (
-                <li key={index}>{skill}</li>
+                <li key={index} className="card-list-item">{skill}</li>
               ))}
             </ul>
           </div>
 
           {/* バックエンド */}
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-4">バックエンド</h3>
+            <h3 className="text-xl font-semibold mb-4 card-heading">バックエンド</h3>
             <ul className="space-y-2">
               {skills.backend.map((skill, index) => (
-                <li key={index}>{skill}</li>
+                <li key={index} className="card-list-item">{skill}</li>
               ))}
             </ul>
           </div>
 
           {/* その他 */}
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold mb-4">その他</h3>
+            <h3 className="text-xl font-semibold mb-4 card-heading">その他</h3>
             <ul className="space-y-2">
               {skills.other.map((skill, index) => (
-                <li key={index}>{skill}</li>
+                <li key={index} className="card-list-item">{skill}</li>
               ))}
             </ul>
           </div>

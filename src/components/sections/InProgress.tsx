@@ -7,7 +7,7 @@ export const InProgress: React.FC<InProgressProps> = ({ inProgressProjects, visi
   return (
     <section id="in-progress" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">進行中のプロジェクト</h2>
+        <h2 className="text-3xl font-bold text-center mb-12 text-black">進行中のプロジェクト</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {inProgressProjects.map((project, index) => (
             <motion.div
@@ -19,20 +19,22 @@ export const InProgress: React.FC<InProgressProps> = ({ inProgressProjects, visi
               className="bg-white rounded-lg shadow-md overflow-hidden"
             >
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                <p className="text-gray-600 mb-4">{project.description}</p>
+                <h3 className="text-xl font-bold mb-3 text-black">{project.title}</h3>
+                <p className="text-base leading-relaxed font-medium text-black mb-4">
+                  {project.description}
+                </p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.technologies.map((tech, techIndex) => (
                     <span
                       key={techIndex}
-                      className="px-2 py-1 bg-gray-100 text-sm rounded"
+                      className="px-3 py-1.5 bg-gray-100 text-black text-sm font-medium rounded"
                     >
                       {tech}
                     </span>
                   ))}
                 </div>
                 <div className="mt-4">
-                  <span className="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 rounded">
+                  <span className="inline-block px-3 py-1.5 bg-yellow-100 text-black text-sm font-medium rounded">
                     {project.status}
                   </span>
                 </div>
