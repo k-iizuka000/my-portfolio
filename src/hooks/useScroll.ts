@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 export const useScroll = (threshold = 100) => {
   const [isVisible, setIsVisible] = useState(false);
   const [scrollY, setScrollY] = useState(0);
-  const [visibleSections, setVisibleSections] = useState<string[]>([]);
+  const [visibleSections, setVisibleSections] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -14,16 +14,17 @@ export const useScroll = (threshold = 100) => {
       setIsVisible(currentScrollY > threshold);
 
       // セクションの可視性を更新
-      const sections = ['about', 'skills', 'projects', 'in-progress'];
-      const visible = sections.filter(section => {
+      const sections = ['about', 'summary', 'skills', 'projects', 'in-progress'];
+      const visibleSectionsMap = sections.reduce((acc, section) => {
         const element = document.getElementById(section);
-        if (!element) return false;
+        if (!element) return acc;
         
         const rect = element.getBoundingClientRect();
-        return rect.top < window.innerHeight && rect.bottom >= 0;
-      });
+        acc[section] = rect.top < window.innerHeight && rect.bottom >= 0;
+        return acc;
+      }, {} as { [key: string]: boolean });
       
-      setVisibleSections(visible);
+      setVisibleSections(visibleSectionsMap);
     };
 
     window.addEventListener('scroll', toggleVisibility);

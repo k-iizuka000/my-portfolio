@@ -7,6 +7,7 @@ import { About } from './sections/About';
 import { Skills } from './sections/Skills';
 import { Projects } from './sections/Projects';
 import { InProgress } from './sections/InProgress';
+import { Summary } from './sections/Summary';
 import { Footer } from './Footer';
 import { ScrollTopButton } from './ScrollTopButton';
 import { useScroll } from '../hooks/useScroll';
@@ -17,6 +18,7 @@ import { ErrorMessage } from './ErrorMessage';
 
 const menuItems: MenuItems[] = [
   { id: 'about', label: 'About' },
+  { id: 'summary', label: 'Summary' },
   { id: 'skills', label: 'Skills' },
   { id: 'projects', label: 'Projects' },
   { id: 'in-progress', label: 'In Progress' },
@@ -64,6 +66,11 @@ const PortfolioWebsite: React.FC = () => {
             visibleSections={visibleSections} 
             scrollY={scrollY} 
             data={data.about}
+          />
+          <Summary 
+            visibleSections={visibleSections} 
+            scrollY={scrollY} 
+            data={data.summary}
           />
           <Skills 
             visibleSections={visibleSections} 

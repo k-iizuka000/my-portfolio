@@ -12,7 +12,7 @@ export interface ProjectData {
   id: number;
   title: string;
   description: string;
-  technologies: string[];
+  technologies: Array<string | { name: string; role: string }>;
   github?: string;
 }
 
@@ -37,6 +37,15 @@ export interface PortfolioData {
     title: string;
     description: string;
   };
+  summary: {
+    totalExperience: string;
+    highlights: string[];
+    coreTechnologies: Array<{
+      name: string;
+      years: number;
+      level: string;
+    }>;
+  };
   skills: {
     frontend: string[];
     backend: string[];
@@ -53,7 +62,7 @@ export interface SectionProps {
 
 export interface NavigationProps {
   menuItems: MenuItems[];
-  visibleSections: string[];
+  visibleSections: { [key: string]: boolean };
   isMobileMenuOpen: boolean;
   setIsMobileMenuOpen: (isOpen: boolean) => void;
   scrollToSection: (id: string) => void;
@@ -63,9 +72,7 @@ export interface HeaderProps {
   scrollY: number;
 }
 
-export interface AboutProps {
-  visibleSections: string[];
-  scrollY: number;
+export interface AboutProps extends SectionProps {
   data: {
     name: string;
     title: string;
@@ -73,9 +80,7 @@ export interface AboutProps {
   };
 }
 
-export interface SkillsProps {
-  visibleSections: string[];
-  scrollY: number;
+export interface SkillsProps extends SectionProps {
   skills: {
     frontend: string[];
     backend: string[];
@@ -83,15 +88,11 @@ export interface SkillsProps {
   };
 }
 
-export interface ProjectsProps {
-  visibleSections: string[];
-  scrollY: number;
+export interface ProjectsProps extends SectionProps {
   projects: ProjectData[];
 }
 
-export interface InProgressProps {
-  visibleSections: string[];
-  scrollY: number;
+export interface InProgressProps extends SectionProps {
   inProgressProjects: InProgressData[];
 }
 

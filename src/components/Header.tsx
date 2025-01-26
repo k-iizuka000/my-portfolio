@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
+import { HeaderProps } from '../types';
 
-export const Header = () => {
+export const Header: React.FC<HeaderProps> = ({ scrollY }) => {
   return (
     <header className="h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 text-white">
       <motion.div

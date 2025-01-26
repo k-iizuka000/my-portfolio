@@ -6,6 +6,14 @@ interface AboutSectionProps extends SectionProps {
 }
 
 export const About: React.FC<AboutSectionProps> = ({ visibleSections, scrollY, data }) => {
+  const formatDescription = (description: string) => {
+    return description.split('\n').map((line, index) => (
+      <p key={index} className="text-xl leading-relaxed mb-4">
+        {line}
+      </p>
+    ));
+  };
+
   return (
     <section 
       id="about" 
@@ -20,9 +28,7 @@ export const About: React.FC<AboutSectionProps> = ({ visibleSections, scrollY, d
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold mb-12">{data.title}</h2>
         <div className="bg-white rounded-lg shadow-lg p-8">
-          <p className="text-xl leading-relaxed">
-            {data.description}
-          </p>
+          {formatDescription(data.description)}
         </div>
       </div>
     </section>

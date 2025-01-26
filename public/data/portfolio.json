@@ -1,7 +1,7 @@
 {
     "about": {
       "title": "About Me",
-      "description": "10年以上のシステム開発経験を持つソフトウェアエンジニア。主にJava/SQLをベースとした業務システム開発に従事。フロントエンドからバックエンドまでの幅広い技術スタックを活用し、レガシーシステムからクラウド環境まで対応。直近では通信会社向けWebサイト開発のリーダーとして、Spring Boot移行後の技術文書整備やプロセス改善を推進し、チーム全体の生産性向上に貢献。"
+      "description": "10年以上のシステム開発経験を持つソフトウェアエンジニア。\n主にJava/SQLをベースとした業務システム開発に従事。\nフロントエンドからバックエンドまでの幅広い技術スタックを活用し、レガシーシステムからクラウド環境まで対応。\n直近では通信会社向けWebサイト開発のリーダーとして、Spring Boot移行後の技術文書整備やプロセス改善を推進し、チーム全体の生産性向上に貢献。"
     },
     "skills": {
       "frontend": [
@@ -34,12 +34,65 @@
         "e2e"
       ]
     },
+    "summary": {
+      "totalExperience": "10年以上",
+      "highlights": [
+        "Java/Spring Bootを用いたバックエンド開発が得意",
+        "フロントエンドからバックエンドまでのフルスタック開発経験",
+        "チームリーダーとしてのプロジェクトマネジメント経験",
+        "レガシーシステムモダン化の経験多数"
+      ],
+      "coreTechnologies": [
+        {
+          "name": "Java/Spring",
+          "years": 8,
+          "level": "エキスパート"
+        },
+        {
+          "name": "JavaScript/TypeScript",
+          "years": 6,
+          "level": "上級"
+        },
+        {
+          "name": "AWS",
+          "years": 3,
+          "level": "中級"
+        }
+      ]
+    },
     "projects": [
       {
         "id": 1,
         "title": "通信会社向けWebサイト開発",
-        "description": "【期間】2024/01 - 2025/01\n【役割】開発リーダー\n\n【成果】\n・Spring Boot移行後の技術文書整備とナレッジ共有体制の確立\n・IntelliJ用カスタムプラグインの開発によるjavadoc追加作業の効率化\n・若手エンジニア（4年目×2名）の教育とコードレビュー体制の確立\n・リリース管理プロセスの改善とPRテンプレートの導入",
-        "technologies": ["Python(pypika)", "Java(Spring)", "JavaScript", "JSP", "Git"],
+        "period": {
+          "start": "2024-01",
+          "end": "2025-01"
+        },
+        "teamSize": 8,
+        "role": "開発リーダー",
+        "description": "【成果】\n・Spring Boot移行後の技術文書整備とナレッジ共有体制の確立\n・IntelliJ用カスタムプラグインの開発によるJavadoc追加作業の効率化\n・若手エンジニア（4年目×2名）の教育とコードレビュー体制の確立\n・リリース管理プロセスの改善とPRテンプレートの導入",
+        "technologies": [
+          {
+            "name": "Python(pypika)",
+            "role": "バックエンド開発"
+          },
+          {
+            "name": "Java(Spring)",
+            "role": "メインフレームワーク"
+          },
+          {
+            "name": "JavaScript",
+            "role": "フロントエンド開発"
+          },
+          {
+            "name": "JSP",
+            "role": "画面開発"
+          },
+          {
+            "name": "Git",
+            "role": "バージョン管理"
+          }
+        ],
         "github": ""
       },
       {
@@ -105,14 +158,21 @@
         "title": "ポートフォリオサイトの作成",
         "description": "Next.js、TypeScript、Tailwind CSSを使用した個人ポートフォリオサイトの開発。モダンなUI/UXと、アニメーションを活用した魅力的なデザインを実装中。",
         "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
-        "status": "開発中"
+        "status": "改善中（本ファイル）"
       },
       {
         "id": 2,
-        "title": "技術ブログの立ち上げ",
-        "description": "技術的な知見や経験を共有するための個人ブログサイトの構築。Markdownでの記事管理とタグ機能、検索機能を実装予定。",
-        "technologies": ["Astro", "React", "MDX", "Tailwind CSS"],
+        "title": "intelljの拡張機能",
+        "description": "既存のプロジェクトだとJUnitに対してJavadocがなかったり、assertが漏れていたりすることが多い。そこに対してリファクタリングを行うと時間がかかりすぎるため、Javadocの生成とassert漏れをチェックする拡張機能。",
+        "technologies": ["java", "intellj"],
         "status": "計画中"
+      },
+      {
+        "id": 3,
+        "title": "web画面での自動テストツール",
+        "description": "webアプリで修正を行うとユーザー準備や画面表示条件を調査する時間がかかる。それらを全てDDTとして自動的にテストを行うツール。",
+        "technologies": ["Python"],
+        "status": "実行中"
       }
     ]
 }

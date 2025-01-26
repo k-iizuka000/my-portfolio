@@ -13,6 +13,13 @@ export const Projects: React.FC<ProjectsProps> = ({ projects, visibleSections, s
     ));
   };
 
+  const formatTechnology = (tech: string | { name: string; role: string }) => {
+    if (typeof tech === 'string') {
+      return tech;
+    }
+    return `${tech.name} (${tech.role})`;
+  };
+
   return (
     <section id="projects" className="py-20">
       <div className="container mx-auto px-4">
@@ -38,7 +45,7 @@ export const Projects: React.FC<ProjectsProps> = ({ projects, visibleSections, s
                       key={techIndex}
                       className="px-3 py-1.5 bg-gray-100 text-black text-sm font-medium rounded"
                     >
-                      {tech}
+                      {formatTechnology(tech)}
                     </span>
                   ))}
                 </div>

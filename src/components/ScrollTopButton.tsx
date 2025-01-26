@@ -1,13 +1,11 @@
-import { useScroll } from '../hooks/useScroll';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpIcon } from '@heroicons/react/24/outline';
+import { ScrollTopButtonProps } from '../types';
 
-export const ScrollTopButton = () => {
-  const { isVisible, scrollToTop } = useScroll();
-
+export const ScrollTopButton: React.FC<ScrollTopButtonProps> = ({ showScrollTop, scrollToTop }) => {
   return (
     <AnimatePresence>
-      {isVisible && (
+      {showScrollTop && (
         <motion.button
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
