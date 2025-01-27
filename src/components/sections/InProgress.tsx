@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { InProgressProps } from '../../types';
 
-export const InProgress: React.FC<InProgressProps> = ({ inProgressProjects, visibleSections, scrollY }) => {
+export const InProgress: React.FC<InProgressProps> = ({ inProgressProjects }) => {
   return (
     <section id="in-progress" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">

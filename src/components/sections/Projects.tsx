@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { ProjectsProps } from '../../types';
 
-export const Projects: React.FC<ProjectsProps> = ({ projects, visibleSections, scrollY }) => {
+export const Projects: React.FC<ProjectsProps> = ({ projects }) => {
   const formatDescription = (description: string) => {
     const lines = description.split('\n').filter(line => line.trim() !== '');
     return lines.map((line, index) => (
