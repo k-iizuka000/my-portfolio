@@ -11,7 +11,8 @@ export const usePortfolioData = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/data/portfolio.json');
+        const basePath = process.env.NODE_ENV === 'production' ? '/my-portfolio' : '';
+        const response = await fetch(`${basePath}/data/portfolio.json`);
         if (!response.ok) {
           throw new Error('Failed to fetch portfolio data');
         }
