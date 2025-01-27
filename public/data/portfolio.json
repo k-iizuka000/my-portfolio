@@ -49,12 +49,22 @@
           "level": "エキスパート"
         },
         {
-          "name": "JavaScript/TypeScript",
+          "name": "JavaScript/HTML/css",
           "years": 6,
           "level": "上級"
         },
         {
-          "name": "AWS",
+          "name": "Python",
+          "years": 5,
+          "level": "中級"
+        },
+        {
+          "name": "Ruby",
+          "years": 3,
+          "level": "中級"
+        },
+        {
+          "name": "PHP",
           "years": 3,
           "level": "中級"
         }
