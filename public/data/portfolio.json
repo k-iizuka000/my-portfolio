@@ -80,7 +80,7 @@
         },
         "teamSize": 8,
         "role": "開発リーダー",
-        "description": "【成果】\n・Spring Boot移行後の技術文書整備とナレッジ共有体制の確立\n・IntelliJ用カスタムプラグインの開発によるJavadoc追加作業の効率化\n・若手エンジニア（4年目×2名）の教育とコードレビュー体制の確立\n・リリース管理プロセスの改善とPRテンプレートの導入",
+        "description": "【成果】\n・Spring Boot移行後の技術文書整備とナレッジ共有体制の確立\n・若手エンジニアの教育とコードレビュー体制の確立\n・リリース管理プロセスの改善やPRテンプレートの導入",
         "technologies": [
           {
             "name": "Python(pypika)",
@@ -172,16 +172,16 @@
       },
       {
         "id": 2,
-        "title": "intelljの拡張機能",
-        "description": "既存のプロジェクトだとJUnitに対してJavadocがなかったり、assertが漏れていたりすることが多い。そこに対してリファクタリングを行うと時間がかかりすぎるため、Javadocの生成とassert漏れをチェックする拡張機能。",
-        "technologies": ["java", "intellj"],
-        "status": "計画中"
+        "title": "pay.jpを使用した決済システム",
+        "description": "pay.jpでのAPIを利用するエンドポイント開発（フロント、バック、両方）",
+        "technologies": ["js","java", "spring"],
+        "status": "完了"
       },
       {
         "id": 3,
         "title": "web画面での自動テストツール",
-        "description": "webアプリで修正を行うとユーザー準備や画面表示条件を調査する時間がかかる。それらを全てDDTとして自動的にテストを行うツール。",
-        "technologies": ["Python"],
+        "description": "テストロジックとテストデータを分離する（DDT）として作成し、全パターンのテストを自動的に行えるようにする",
+        "technologies": ["Python","Selenium"],
         "status": "実行中"
       }
     ]
