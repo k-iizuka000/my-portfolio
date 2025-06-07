@@ -1,20 +1,31 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "My Portfolio",
-  description: "Welcome to my portfolio website",
+  title: "Portfolio | Software Engineer",
+  description: "10年以上の開発経験を持つソフトウェアエンジニアのポートフォリオサイト。Java/Spring Boot、JavaScript、Python等の技術スタックでフルスタック開発を行っています。",
+  keywords: ["ソフトウェアエンジニア", "フルスタック開発", "Java", "Spring Boot", "JavaScript", "Python", "ポートフォリオ"],
+  authors: [{ name: "Software Engineer" }],
+  creator: "Software Engineer",
+  openGraph: {
+    title: "Portfolio | Software Engineer",
+    description: "10年以上の開発経験を持つソフトウェアエンジニアのポートフォリオサイト",
+    type: "website",
+    locale: "ja_JP",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Portfolio | Software Engineer",
+    description: "10年以上の開発経験を持つソフトウェアエンジニアのポートフォリオサイト",
+  },
+  viewport: "width=device-width, initial-scale=1",
+  robots: "index, follow",
 };
 
 export default function RootLayout({
@@ -23,10 +34,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="ja" className="scroll-smooth">
+      <body className={`${inter.className} antialiased bg-slate-950 text-white`}>
         {children}
       </body>
     </html>

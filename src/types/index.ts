@@ -14,6 +14,12 @@ export interface ProjectData {
   description: string;
   technologies: Array<string | { name: string; role: string }>;
   github?: string;
+  period?: {
+    start: string;
+    end: string;
+  };
+  role?: string;
+  teamSize?: number;
 }
 
 export interface InProgressData {

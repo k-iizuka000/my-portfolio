@@ -6,7 +6,7 @@ import { PortfolioData } from '../types';
 export const usePortfolioData = () => {
   const [data, setData] = useState<PortfolioData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +19,7 @@ export const usePortfolioData = () => {
         const jsonData = await response.json();
         setData(jsonData);
       } catch (err) {
-        setError(err instanceof Error ? err : new Error('Unknown error occurred'));
+        setError(err instanceof Error ? err.message : 'Unknown error occurred');
       } finally {
         setLoading(false);
       }
