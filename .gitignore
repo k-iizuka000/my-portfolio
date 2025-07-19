@@ -42,3 +42,73 @@ next-env.d.ts
 
 # temp
 temp/
+/tmp/
+*.tmp
+
+# kiro/claude related
+/.kiro/*
+.agent_comm/*
+/.claude/*
+CLAUDE.md
+
+# Next.js specific
+.next/*
+next-env.d.ts
+
+# Test results
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Editor directories and files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Log files
+*.log
+
+# Build outputs
+/out/
+dist/
+
+# Environment variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS files
+Thumbs.db
+
+# Temporary files
+*.bak
+*.cache
+*.pid
+*.seed
+*.backup
+
+# Package manager files
+.pnpm-store/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Eslint cache
+.eslintcache
+
+# Stylelint cache
+.stylelintcache
+
+# Jest cache
+jest_cache/
+
+# Playwright test results
+test-results/
+playwright-report/
+
+# メモ/
+/メモ/
+/tasks/
