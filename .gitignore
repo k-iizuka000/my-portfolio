@@ -109,6 +109,66 @@ jest_cache/
 test-results/
 playwright-report/
 
-# メモ/
+# メモ/ドキュメント
 /メモ/
 /tasks/
+/tmp/
+*.md.bak
+プロンプト*.md
+
+# ビルド成果物（Next.js static export）
+/out/
+
+# 個人的なメモやタスク管理
+/tasks/
+/メモ/
+/tmp/
+/temp/
+*.tmp
+*.bak
+*.backup
+
+# プロンプトやドキュメント
+プロンプト.md
+プロンプト*.md
+*copy.md
+ファイル構造.txt
+
+# セキュリティ関連（念のため）
+*.key
+*.pem
+*.cert
+*.crt
+*.p12
+credentials.json
+service-account*.json
+
+# データベース関連
+*.db
+*.sqlite
+*.sqlite3
+
+# バックアップファイル
+*.backup
+*.bak
+*.old
+*.orig
+*~
+
+# ローカル設定
+.local/
+local-settings.json
+config.local.json
+
+# デバッグ関連
+debug.log
+*.stackdump
+core.*
+
+# その他個人ファイル
+personal/
+private/
+draft/
+drafts/
+archive/
+archives/
