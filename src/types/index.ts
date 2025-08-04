@@ -27,7 +27,8 @@ export interface InProgressData {
   title: string;
   description: string;
   technologies: string[];
-  status: string;
+  status?: string;
+  url?: string;
 }
 
 export interface SkillData {

@@ -165,24 +165,24 @@
     "inProgress": [
       {
         "id": 1,
-        "title": "ポートフォリオサイトの作成",
-        "description": "Next.js、TypeScript、Tailwind CSSを使用した個人ポートフォリオサイトの開発。モダンなUI/UXと、アニメーションを活用した魅力的なデザインを実装中。",
-        "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
-        "status": "改善中（本ファイル）"
+        "title": "防衛日報の決済システムの構築",
+        "description": "防衛日報サイトへのpay.jpを使用した決済システムの実装。Javaを使用した決済機能の開発とAPIの実装により、安全で効率的な支払いプロセスを構築。",
+        "technologies": ["Java", "pay.jp API", "Spring Boot"],
+        "url": "https://dailydefense.jp/"
       },
       {
         "id": 2,
-        "title": "pay.jpを使用した決済システム",
-        "description": "pay.jpでのAPIを利用するエンドポイント開発（フロント、バック、両方）",
-        "technologies": ["js","java", "spring"],
-        "status": "完了"
+        "title": "レンタカー予約システムの構築",
+        "description": "グアムのレンタカー予約システムのモダン化。PHP/JavaScriptで構築された既存システムをAstroへ移行（約40画面）。多言語対応と全画面のバリデーション機能を実装。",
+        "technologies": ["PHP", "JavaScript", "Astro"],
+        "url": "https://guam-rentacar.com/"
       },
       {
         "id": 3,
-        "title": "web画面での自動テストツール",
-        "description": "テストロジックとテストデータを分離する（DDT）として作成し、全パターンのテストを自動的に行えるようにする",
-        "technologies": ["Python","Selenium"],
-        "status": "実行中"
+        "title": "自動note投稿システムの構築",
+        "description": "AIを活用した自動記事生成・投稿システムの開発。現在のトレンドを分析し、最適化されたコンテンツを自動生成。Playwrightを使用して自動投稿。",
+        "technologies": ["AI/LLM", "Note API", "Python", "ワークフロー自動化"],
+        "url": "https://note.com/kei8217"
       }
     ]
 }

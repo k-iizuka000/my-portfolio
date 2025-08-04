@@ -399,7 +399,7 @@ const PortfolioWebsite: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="bg-slate-800/30 rounded-xl p-8 border border-slate-700/30 backdrop-blur-sm"
           >
-            <h3 className="text-2xl font-semibold mb-8 text-center text-green-400">進行中のプロジェクト</h3>
+            <h3 className="text-2xl font-semibold mb-8 text-center text-green-400">個人受注案件</h3>
             <div className="grid md:grid-cols-3 gap-6">
               {data.inProgress.map((project, index) => (
                 <motion.div
@@ -410,20 +410,11 @@ const PortfolioWebsite: React.FC = () => {
                   transition={{ duration: 0.6, delay: index * 0.2 }}
                   className="bg-slate-700/30 rounded-lg p-6 border border-slate-600/30"
                 >
-                  <div className="flex justify-between items-start mb-3">
+                  <div className="mb-3">
                     <h4 className="font-medium text-white">{project.title}</h4>
-                    <span className={`text-xs px-2 py-1 rounded ${
-                      project.status === '完了' 
-                        ? 'bg-green-400/10 text-green-400' 
-                        : project.status === '実行中'
-                        ? 'bg-yellow-400/10 text-yellow-400'
-                        : 'bg-blue-400/10 text-blue-400'
-                    }`}>
-                      {project.status}
-                    </span>
                   </div>
                   <p className="text-sm text-slate-300 mb-4">{project.description}</p>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-1 mb-3">
                     {project.technologies.map((tech, techIndex) => (
                       <span
                         key={techIndex}
@@ -433,6 +424,19 @@ const PortfolioWebsite: React.FC = () => {
                       </span>
                     ))}
                   </div>
+                  {project.url && (
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center text-blue-400 hover:text-blue-300 text-sm transition-colors"
+                    >
+                      <span>サイトを見る</span>
+                      <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
+                  )}
                 </motion.div>
               ))}
             </div>
