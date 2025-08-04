@@ -7,7 +7,7 @@ export const InProgress: React.FC<InProgressProps> = ({ inProgressProjects }) =>
   return (
     <section id="in-progress" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12 text-black">進行中のプロジェクト</h2>
+        <h2 className="text-3xl font-bold text-center mb-12 text-black">個人受注案件</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {inProgressProjects.map((project, index) => (
             <motion.div
@@ -33,10 +33,20 @@ export const InProgress: React.FC<InProgressProps> = ({ inProgressProjects }) =>
                     </span>
                   ))}
                 </div>
-                <div className="mt-4">
-                  <span className="inline-block px-3 py-1.5 bg-yellow-100 text-black text-sm font-medium rounded">
-                    {project.status}
-                  </span>
+                <div className="mt-4 flex items-center justify-end">
+                  {project.url && (
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center px-3 py-1.5 text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors"
+                    >
+                      <span>サイトを見る</span>
+                      <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
+                  )}
                 </div>
               </div>
             </motion.div>
