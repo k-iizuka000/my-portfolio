@@ -25,6 +25,9 @@
 
 ```
 /Users/kei/work/my-portfolio/
+├── .next/                           # 開発ビルドキャッシュ (100MB) ⚙️自動生成
+├── node_modules/                    # npm依存パッケージ (411MB) ⚙️自動生成
+├── out/                             # 静的エクスポート出力 (1.1MB) ⚙️自動生成
 ├── src/
 │   ├── app/                          # Next.js App Router
 │   │   ├── layout.tsx               # ルートレイアウト (43行)
@@ -32,20 +35,11 @@
 │   │   ├── globals.css              # グローバルスタイル (151行)
 │   │   └── favicon.ico
 │   │
-│   ├── components/
+│   ├── components/                   # ★2025-12-10更新（4ファイルに整理）
 │   │   ├── PortfolioWebsite.tsx     # メインコンポーネント (492行) ★重要
-│   │   ├── Header.tsx               # ヘッダー (30行) ❌未使用
-│   │   ├── Navigation.tsx           # ナビゲーション ❌未使用
-│   │   ├── Footer.tsx               # フッター (15行) ❌未使用
 │   │   ├── LoadingSpinner.tsx       # ローディング (32行) ✅流用可
 │   │   ├── ErrorMessage.tsx         # エラー表示 (39行) ✅流用可
-│   │   ├── ScrollTopButton.tsx      # スクロールボタン ✅流用可
-│   │   └── sections/                # セクションコンポーネント
-│   │       ├── About.tsx            # ❌未使用
-│   │       ├── Summary.tsx          # ❌未使用
-│   │       ├── Skills.tsx           # ❌未使用
-│   │       ├── Projects.tsx         # ❌未使用
-│   │       └── InProgress.tsx       # ❌未使用
+│   │   └── ScrollTopButton.tsx      # スクロールボタン ✅流用可
 │   │
 │   ├── hooks/
 │   │   ├── usePortfolioData.ts      # データ取得 (32行) ✅流用可
@@ -77,35 +71,29 @@
 
 ## 3. コンポーネント分析
 
-### 3.1 コンポーネント一覧と状態
+### 3.1 コンポーネント一覧と状態（2025-12-10更新）
 
 | コンポーネント | 行数 | 状態 | 再利用性 | 備考 |
 |--------------|------|------|---------|------|
 | **PortfolioWebsite.tsx** | 492 | ✅使用中 | 2/10 | 全機能が統合されたモノリシック構造 |
-| Header.tsx | 30 | ❌未使用 | 6/10 | PortfolioWebsiteにインライン実装 |
-| Navigation.tsx | - | ❌未使用 | 7/10 | PortfolioWebsiteにインライン実装 |
-| Footer.tsx | 15 | ❌未使用 | 8/10 | PortfolioWebsiteにインライン実装 |
 | **LoadingSpinner.tsx** | 32 | ✅使用中 | 9/10 | 汎用ローディング表示 |
 | **ErrorMessage.tsx** | 39 | ✅使用中 | 9/10 | 汎用エラー表示 |
 | **ScrollTopButton.tsx** | - | ✅使用中 | 8/10 | 汎用UIコンポーネント |
-| sections/About.tsx | - | ❌未使用 | 5/10 | ライトテーマで不整合 |
-| sections/Summary.tsx | - | ❌未使用 | 5/10 | ライトテーマで不整合 |
-| sections/Skills.tsx | - | ❌未使用 | 5/10 | ライトテーマで不整合 |
-| sections/Projects.tsx | - | ❌未使用 | 6/10 | ライトテーマで不整合 |
-| sections/InProgress.tsx | - | ❌未使用 | 4/10 | ライトテーマで不整合 |
 
-### 3.2 未使用コンポーネントの理由
+### 3.2 削除済みコンポーネント（2025-12-10削除）
 
-すべての機能が`PortfolioWebsite.tsx`内にインライン実装されているため、以下の8つのコンポーネントは**完全に未使用**：
+以下の8つのコンポーネントは未使用のため**削除済み**：
 
-1. `Header.tsx`
-2. `Navigation.tsx`
-3. `Footer.tsx`
-4. `sections/About.tsx`
-5. `sections/Summary.tsx`
-6. `sections/Skills.tsx`
-7. `sections/Projects.tsx`
-8. `sections/InProgress.tsx`
+| コンポーネント | 削除理由 |
+|--------------|---------|
+| ~~Header.tsx~~ | PortfolioWebsiteにインライン実装 |
+| ~~Navigation.tsx~~ | PortfolioWebsiteにインライン実装 |
+| ~~Footer.tsx~~ | PortfolioWebsiteにインライン実装 |
+| ~~sections/About.tsx~~ | PortfolioWebsiteにインライン実装 |
+| ~~sections/Summary.tsx~~ | PortfolioWebsiteにインライン実装 |
+| ~~sections/Skills.tsx~~ | PortfolioWebsiteにインライン実装 |
+| ~~sections/Projects.tsx~~ | PortfolioWebsiteにインライン実装 |
+| ~~sections/InProgress.tsx~~ | PortfolioWebsiteにインライン実装 |
 
 ---
 
@@ -252,25 +240,31 @@ const { scrollYProgress } = useScroll();                              // スク�
 
 ## 9. UI変更のための推奨事項
 
-### 9.1 削除推奨（不要モジュール）
+### 9.1 削除済みモジュール（2025-12-10実施）
+
+以下のファイルは削除済みです：
 
 ```
 src/components/
-├── Header.tsx               # 削除可
-├── Navigation.tsx           # 削除可
-├── Footer.tsx               # 削除可
-└── sections/
-    ├── About.tsx            # 削除可
-    ├── Summary.tsx          # 削除可
-    ├── Skills.tsx           # 削除可
-    ├── Projects.tsx         # 削除可
-    └── InProgress.tsx       # 削除可
-
-package.json:
-- react-intersection-observer  # 削除可
+├── Header.tsx               ✅削除済
+├── Navigation.tsx           ✅削除済
+├── Footer.tsx               ✅削除済
+└── sections/                ✅ディレクトリごと削除済
+    ├── About.tsx
+    ├── Summary.tsx
+    ├── Skills.tsx
+    ├── Projects.tsx
+    └── InProgress.tsx
 ```
 
-### 9.2 流用推奨（価値あるモジュール）
+### 9.2 削除推奨（未実施）
+
+```
+package.json:
+- react-intersection-observer  # 未使用パッケージ（docker環境内でnpm uninstall必要）
+```
+
+### 9.3 流用推奨（価値あるモジュール）
 
 | モジュール | 理由 |
 |-----------|------|
@@ -283,7 +277,7 @@ package.json:
 | `globals.css` | カスタムスタイル定義 |
 | `portfolio.json` | データ構造（拡張可能） |
 
-### 9.3 リファクタリング推奨
+### 9.4 リファクタリング推奨
 
 1. **PortfolioWebsite.tsx の分割**
    - 492行のモノリシックコンポーネントを小さなコンポーネントに分割
@@ -330,7 +324,38 @@ package.json:
 
 ---
 
-## 12. 次のステップ
+## 12. 自動生成ディレクトリ
+
+以下のディレクトリは**自動生成**されるため、削除しても再生成可能です。
+
+| ディレクトリ | サイズ | 用途 | 削除可否 | 再生成方法 |
+|------------|--------|------|---------|-----------|
+| `.next/` | 100MB | 開発時ビルドキャッシュ | ✅削除可 | `npm run dev`で自動再生成 |
+| `node_modules/` | 411MB | npm依存パッケージ | ✅削除可 | `npm install`で再生成 |
+| `out/` | 1.1MB | 静的エクスポート出力 | ✅削除可 | `npm run build`で再生成 |
+
+### 特徴
+
+- **gitignore対象**: 3つとも`.gitignore`に含まれており、バージョン管理されていない
+- **ソースコードではない**: 全て自動生成されるファイル群
+- **合計サイズ**: 約512MB（削除でディスク容量解放可能）
+
+### 削除コマンド（docker環境内で実行）
+
+```bash
+# キャッシュのみ削除（推奨）
+rm -rf .next out
+
+# 全削除（再インストール必要）
+rm -rf .next out node_modules
+npm install  # docker環境内で実行必須
+```
+
+**注意**: `node_modules`削除後は、docker環境内で`npm install`の実行が必要です。
+
+---
+
+## 13. 次のステップ
 
 UI変更を行う場合、以下の手順を推奨：
 
