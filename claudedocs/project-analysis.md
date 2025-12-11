@@ -1,6 +1,6 @@
 # my-portfolio プロジェクト分析レポート
 
-**調査日**: 2025-12-10
+**調査日**: 2025-12-10（Docker化: 2025-12-11）
 **調査方法**: 10個のExploreエージェントによる並列調査 + Ultrathink分析
 
 ---
@@ -64,7 +64,10 @@
     ├── next.config.js
     ├── tailwind.config.ts
     ├── postcss.config.mjs
-    └── eslint.config.mjs
+    ├── eslint.config.mjs
+    ├── Dockerfile                   # 🐳Docker設定（2025-12-11追加）
+    ├── docker-compose.yml           # 🐳Docker Compose（2025-12-11追加）
+    └── .dockerignore                # 🐳Dockerビルド除外（2025-12-11追加）
 ```
 
 ---
@@ -324,34 +327,67 @@ package.json:
 
 ---
 
-## 12. 自動生成ディレクトリ
+## 12. Docker開発環境（2025-12-11更新）
 
-以下のディレクトリは**自動生成**されるため、削除しても再生成可能です。
+### 12.1 Docker化の概要
 
-| ディレクトリ | サイズ | 用途 | 削除可否 | 再生成方法 |
-|------------|--------|------|---------|-----------|
-| `.next/` | 100MB | 開発時ビルドキャッシュ | ✅削除可 | `npm run dev`で自動再生成 |
-| `node_modules/` | 411MB | npm依存パッケージ | ✅削除可 | `npm install`で再生成 |
-| `out/` | 1.1MB | 静的エクスポート出力 | ✅削除可 | `npm run build`で再生成 |
+ローカル開発環境はDocker化されました。ホスト環境での`npm`直接実行は不要です。
 
-### 特徴
+| 項目 | 値 |
+|------|-----|
+| ベースイメージ | node:20-alpine |
+| コンテナ名 | my-portfolio-dev |
+| ポート | 3030:3030 |
+| 開発サーバー | Turbopack有効 |
 
-- **gitignore対象**: 3つとも`.gitignore`に含まれており、バージョン管理されていない
-- **ソースコードではない**: 全て自動生成されるファイル群
-- **合計サイズ**: 約512MB（削除でディスク容量解放可能）
+### 12.2 Dockerボリューム構成
 
-### 削除コマンド（docker環境内で実行）
+| ボリューム種別 | パス | 用途 |
+|--------------|------|------|
+| バインドマウント | `./src` | ソースコード（ホットリロード） |
+| バインドマウント | `./public` | 静的ファイル |
+| バインドマウント | 設定ファイル群 | 設定変更反映 |
+| 名前付きボリューム | `node_modules` | 依存パッケージ（コンテナ内管理） |
+| 名前付きボリューム | `next_cache` | Next.jsキャッシュ |
+| バインドマウント | `./out` | ビルド出力共有 |
 
+### 12.3 ホスト側の自動生成ディレクトリ
+
+Docker化後、以下のディレクトリは**ホスト側に存在しません**（Dockerボリュームで管理）：
+
+| ディレクトリ | 管理方法 | 備考 |
+|------------|---------|------|
+| `node_modules/` | Dockerボリューム | `my-portfolio-node-modules` |
+| `.next/` | Dockerボリューム | `my-portfolio-next-cache` |
+| `out/` | バインドマウント | ビルド時のみ生成 |
+
+### 12.4 主要コマンド
+
+| 操作 | コマンド |
+|------|---------|
+| 開発サーバー起動 | `docker compose up` |
+| バックグラウンド起動 | `docker compose up -d` |
+| 停止 | `docker compose down` |
+| 再ビルド＆起動 | `docker compose up --build` |
+| ビルド | `docker compose exec app npm run build` |
+| Lint | `docker compose exec app npm run lint` |
+| パッケージ追加 | `docker compose exec app npm install <pkg>` |
+| シェル接続 | `docker compose exec app sh` |
+| キャッシュクリア | `docker compose down -v` |
+
+### 12.5 トラブルシューティング
+
+**ホットリロードが効かない場合**:
 ```bash
-# キャッシュのみ削除（推奨）
-rm -rf .next out
-
-# 全削除（再インストール必要）
-rm -rf .next out node_modules
-npm install  # docker環境内で実行必須
+docker compose down
+WATCHPACK_POLLING=true docker compose up
 ```
 
-**注意**: `node_modules`削除後は、docker環境内で`npm install`の実行が必要です。
+**依存関係エラー**:
+```bash
+docker compose down -v
+docker compose up --build
+```
 
 ---
 
@@ -359,18 +395,21 @@ npm install  # docker環境内で実行必須
 
 UI変更を行う場合、以下の手順を推奨：
 
-1. **不要ファイルの削除**
-   - 8つの未使用コンポーネント
-   - react-intersection-observerパッケージ
+1. **Docker環境の起動**
+   - `docker compose up` で開発サーバー起動
+   - http://localhost:3030 で確認
 
-2. **PortfolioWebsite.tsxの分割**
+2. **未使用パッケージの削除**（任意）
+   - `docker compose exec app npm uninstall react-intersection-observer`
+
+3. **PortfolioWebsite.tsxの分割**
    - ナビゲーション、各セクション、フッターを独立コンポーネントに
 
-3. **新しいデザインシステムの導入**
+4. **新しいデザインシステムの導入**
    - CLAUDE.mdに記載のデザインスタイルから選択
    - 一貫したテーマの適用
 
-4. **流用可能なモジュールの活用**
+5. **流用可能なモジュールの活用**
    - LoadingSpinner, ErrorMessage, ScrollTopButton
    - カスタムフック、型定義
 
