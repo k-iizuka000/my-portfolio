@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kei - Full Stack Engineer | 3D Cards Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        /* 3D Perspective */
+        .perspective-container {
+            perspective: 1200px;
+        }
+
+        .card-3d {
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            transform-style: preserve-3d;
+        }
+
+        .card-3d:hover {
+            transform: rotateX(8deg) rotateY(-8deg) scale(1.05);
+        }
+
+        .skill-card {
+            position: relative;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            transform-style: preserve-3d;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .skill-card:hover {
+            transform: rotateX(10deg) rotateY(-10deg) translateZ(20px);
+            box-shadow: 0 40px 80px rgba(59, 130, 246, 0.3);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        .project-card {
+            position: relative;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 12px;
+            padding: 28px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            transform-style: preserve-3d;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+
+        .project-card:hover {
+            transform: rotateX(12deg) rotateY(-12deg) translateZ(30px);
+            box-shadow: 0 50px 100px rgba(59, 130, 246, 0.4);
+            border-color: rgba(59, 130, 246, 0.6);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        /* ヒーロー */
+        .hero-section {
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .hero-text {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #94a3b8;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            line-height: 1.8;
+            max-width: 600px;
+        }
+
+        /* Skill Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        /* Project Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        /* Glow Effect */
+        .glow-icon {
+            display: inline-block;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            transition: transform 0.3s;
+        }
+
+        .skill-card:hover .glow-icon {
+            transform: scale(1.2) rotateY(-20deg);
+        }
+
+        /* Link Button */
+        .btn-github {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+            border: 1px solid rgba(139, 92, 246, 0.5);
+        }
+
+        .btn-github:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(59, 130, 246, 0.5);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 12px;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-3d:hover,
+            .skill-card:hover,
+            .project-card:hover {
+                transform: none;
+            }
+        }
+
+        /* Code Snippet Style */
+        .code-snippet {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 3px solid #3b82f6;
+            padding: 12px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section py-24 px-4 md:px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="hero-text">
+                <h1 class="hero-title">kei</h1>
+                <p class="hero-subtitle">Full Stack Engineer</p>
+                <p class="hero-description">
+                    Passionate developer crafting scalable web applications with modern technologies.
+                    Specializing in React, Node.js, and cloud-native architectures.
+                </p>
+                <div class="mt-8">
+                    <a href="https://github.com" class="btn-github float">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="py-20 px-4 md:px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                Core Skills
+            </h2>
+            <div class="skills-grid">
+                <!-- Frontend -->
+                <div class="skill-card perspective-container">
+                    <div class="card-3d">
+                        <div class="glow-icon">⚛️</div>
+                        <h3 class="font-semibold text-lg mb-2">React/TypeScript</h3>
+                        <p class="text-sm text-slate-400">Modern UI development with hooks and state management</p>
+                    </div>
+                </div>
+
+                <!-- Backend -->
+                <div class="skill-card perspective-container">
+                    <div class="card-3d">
+                        <div class="glow-icon">🚀</div>
+                        <h3 class="font-semibold text-lg mb-2">Node.js</h3>
+                        <p class="text-sm text-slate-400">Express, NestJS, API design and scalability</p>
+                    </div>
+                </div>
+
+                <!-- Database -->
+                <div class="skill-card perspective-container">
+                    <div class="card-3d">
+                        <div class="glow-icon">🗄️</div>
+                        <h3 class="font-semibold text-lg mb-2">Databases</h3>
+                        <p class="text-sm text-slate-400">PostgreSQL, MongoDB, Redis optimization</p>
+                    </div>
+                </div>
+
+                <!-- DevOps -->
+                <div class="skill-card perspective-container">
+                    <div class="card-3d">
+                        <div class="glow-icon">🐳</div>
+                        <h3 class="font-semibold text-lg mb-2">DevOps</h3>
+                        <p class="text-sm text-slate-400">Docker, Kubernetes, CI/CD pipelines</p>
+                    </div>
+                </div>
+
+                <!-- Cloud -->
+                <div class="skill-card perspective-container">
+                    <div class="card-3d">
+                        <div class="glow-icon">☁️</div>
+                        <h3 class="font-semibold text-lg mb-2">Cloud</h3>
+                        <p class="text-sm text-slate-400">AWS, GCP, serverless architectures</p>
+                    </div>
+                </div>
+
+                <!-- Architecture -->
+                <div class="skill-card perspective-container">
+                    <div class="card-3d">
+                        <div class="glow-icon">🏗️</div>
+                        <h3 class="font-semibold text-lg mb-2">Architecture</h3>
+                        <p class="text-sm text-slate-400">System design, microservices, scalability</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="py-20 px-4 md:px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                Featured Projects
+            </h2>
+            <div class="projects-grid">
+                <!-- Project 1: BOTANICAL BREW -->
+                <div class="project-card perspective-container">
+                    <div class="card-3d">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🌿</span>
+                            <h3 class="text-xl font-bold">BOTANICAL BREW</h3>
+                        </div>
+                        <p class="text-slate-300 mb-4">
+                            A sustainable e-commerce platform for organic plants and botanical products.
+                        </p>
+                        <div class="space-y-2 mb-4">
+                            <p class="text-sm"><span class="text-blue-400">Frontend:</span> React, Tailwind CSS, Framer Motion</p>
+                            <p class="text-sm"><span class="text-blue-400">Backend:</span> Node.js, PostgreSQL, Stripe API</p>
+                            <p class="text-sm"><span class="text-blue-400">Deployment:</span> Docker, AWS EC2, CloudFront CDN</p>
+                        </div>
+                        <div class="code-snippet">
+                            <span class="text-green-400">$</span> npm run build && docker build -t botanical-brew .
+                        </div>
+                        <div class="flex gap-2 mt-4">
+                            <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded text-xs font-medium">React</span>
+                            <span class="px-3 py-1 bg-green-500/20 text-green-300 rounded text-xs font-medium">Node.js</span>
+                            <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded text-xs font-medium">Docker</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: KEI-bot -->
+                <div class="project-card perspective-container">
+                    <div class="card-3d">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-3xl">🤖</span>
+                            <h3 class="text-xl font-bold">KEI-bot</h3>
+                        </div>
+                        <p class="text-slate-300 mb-4">
+                            AI-powered chatbot with natural language processing and context awareness.
+                        </p>
+                        <div class="space-y-2 mb-4">
+                            <p class="text-sm"><span class="text-blue-400">Architecture:</span> FastAPI, LangChain, Redis cache</p>
+                            <p class="text-sm"><span class="text-blue-400">ML/AI:</span> OpenAI GPT-4, embeddings, RAG</p>
+                            <p class="text-sm"><span class="text-blue-400">Infrastructure:</span> Kubernetes, monitoring with Datadog</p>
+                        </div>
+                        <div class="code-snippet">
+                            <span class="text-green-400">$</span> kubectl apply -f deployment.yaml
+                        </div>
+                        <div class="flex gap-2 mt-4">
+                            <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded text-xs font-medium">Python</span>
+                            <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded text-xs font-medium">Kubernetes</span>
+                            <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded text-xs font-medium">AI/ML</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <section class="border-t border-slate-700 py-12 px-4 md:px-6">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-slate-400 mb-4">Let's build something amazing together</p>
+            <div class="flex justify-center gap-4">
+                <a href="https://github.com" class="text-slate-400 hover:text-blue-400 transition">GitHub</a>
+                <span class="text-slate-700">•</span>
+                <a href="#" class="text-slate-400 hover:text-blue-400 transition">LinkedIn</a>
+                <span class="text-slate-700">•</span>
+                <a href="mailto:kei@example.com" class="text-slate-400 hover:text-blue-400 transition">Email</a>
+            </div>
+            <p class="text-slate-600 text-sm mt-6">© 2025 kei. All rights reserved.</p>
+        </div>
+    </section>
+
+    <!-- 3D Interaction Script -->
+    <script>
+        // マウス追跡による3Dエフェクト
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.card-3d');
+
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                const rotationX = (e.clientY - centerY) * 0.05;
+                const rotationY = (e.clientX - centerX) * -0.05;
+
+                card.style.transform = `
+                    rotateX(${rotationX}deg)
+                    rotateY(${rotationY}deg)
+                    scale(1.02)
+                `;
+            });
+        });
+
+        // マウス離脱時にリセット
+        document.addEventListener('mouseleave', () => {
+            const cards = document.querySelectorAll('.card-3d');
+            cards.forEach(card => {
+                card.style.transform = 'rotateX(0) rotateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

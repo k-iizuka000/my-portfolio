@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kei - Full Stack Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap');
+
+        * {
+            font-family: 'Rajdhani', monospace;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Grid background */
+        .cyber-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(26, 26, 46, 0.6) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(26, 26, 46, 0.6) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0;
+            pointer-events: none;
+        }
+
+        /* Neon glow effects */
+        .neon-pink {
+            color: #FF00FF;
+            text-shadow:
+                0 0 10px rgba(255, 0, 255, 0.8),
+                0 0 20px rgba(255, 0, 255, 0.5),
+                0 0 40px rgba(255, 0, 255, 0.3);
+        }
+
+        .neon-cyan {
+            color: #00FFFF;
+            text-shadow:
+                0 0 10px rgba(0, 255, 255, 0.8),
+                0 0 20px rgba(0, 255, 255, 0.5),
+                0 0 40px rgba(0, 255, 255, 0.3);
+        }
+
+        .border-neon-cyan {
+            border-color: #00FFFF;
+            box-shadow:
+                0 0 10px rgba(0, 255, 255, 0.5),
+                inset 0 0 10px rgba(0, 255, 255, 0.1);
+        }
+
+        .border-neon-pink {
+            border-color: #FF00FF;
+            box-shadow:
+                0 0 10px rgba(255, 0, 255, 0.5),
+                inset 0 0 10px rgba(255, 0, 255, 0.1);
+        }
+
+        .btn-neon-pink {
+            border: 2px solid #FF00FF;
+            color: #FF00FF;
+            background-color: transparent;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-neon-pink:hover {
+            background-color: rgba(255, 0, 255, 0.1);
+            box-shadow:
+                0 0 20px rgba(255, 0, 255, 0.8),
+                0 0 40px rgba(255, 0, 255, 0.4);
+        }
+
+        .btn-neon-cyan {
+            border: 2px solid #00FFFF;
+            color: #00FFFF;
+            background-color: transparent;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-neon-cyan:hover {
+            background-color: rgba(0, 255, 255, 0.1);
+            box-shadow:
+                0 0 20px rgba(0, 255, 255, 0.8),
+                0 0 40px rgba(0, 255, 255, 0.4);
+        }
+
+        /* Skill badge */
+        .skill-badge {
+            border: 1px solid;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+        }
+
+        .skill-badge-cyan {
+            border-color: #00FFFF;
+            color: #00FFFF;
+            background-color: rgba(0, 255, 255, 0.05);
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+        }
+
+        .skill-badge-cyan:hover {
+            background-color: rgba(0, 255, 255, 0.15);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+        }
+
+        .skill-badge-pink {
+            border-color: #FF00FF;
+            color: #FF00FF;
+            background-color: rgba(255, 0, 255, 0.05);
+            box-shadow: 0 0 8px rgba(255, 0, 255, 0.3);
+        }
+
+        .skill-badge-pink:hover {
+            background-color: rgba(255, 0, 255, 0.15);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.6);
+        }
+
+        .skill-badge-purple {
+            border-color: #9D4EDD;
+            color: #9D4EDD;
+            background-color: rgba(157, 78, 221, 0.05);
+            box-shadow: 0 0 8px rgba(157, 78, 221, 0.3);
+        }
+
+        .skill-badge-purple:hover {
+            background-color: rgba(157, 78, 221, 0.15);
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.6);
+        }
+
+        /* Scanning lines animation */
+        @keyframes scan {
+            0% { top: -100%; }
+            100% { top: 100%; }
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(0, 255, 255, 0.5),
+                transparent
+            );
+            animation: scan 3s linear infinite;
+            pointer-events: none;
+        }
+
+        /* Pulse glow */
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        /* Link styling */
+        a {
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cyber-link {
+            color: #00FFFF;
+            border-bottom: 1px solid #00FFFF;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .cyber-link:hover {
+            color: #FF00FF;
+            border-bottom-color: #FF00FF;
+            text-shadow: 0 0 15px rgba(255, 0, 255, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-[#0A0A0F] text-white overflow-x-hidden">
+    <!-- Grid Background -->
+    <div class="cyber-grid"></div>
+
+    <!-- Main Container -->
+    <div class="relative z-10">
+        <!-- HERO Section -->
+        <section class="min-h-screen flex items-center justify-center px-6 py-20 relative overflow-hidden">
+            <div class="scan-line"></div>
+
+            <!-- Content -->
+            <div class="text-center max-w-4xl mx-auto">
+                <!-- Status line -->
+                <div class="mb-12 text-sm font-mono text-cyan-400">
+                    <span class="inline-block px-4 py-2 border border-cyan-400 border-neon-cyan">
+                        $ STATUS: <span class="pulse-glow">ONLINE</span>
+                    </span>
+                </div>
+
+                <!-- Name -->
+                <h1 class="text-7xl md:text-8xl font-black mb-4 neon-pink">
+                    KEI
+                </h1>
+
+                <!-- Title -->
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 neon-cyan">
+                    FULL STACK ENGINEER
+                </h2>
+
+                <!-- Description -->
+                <p class="text-lg md:text-xl mb-12 text-gray-300 max-w-2xl mx-auto leading-relaxed font-light">
+                    React • TypeScript • Next.js • Python • Docker<br/>
+                    エンジニアリング・デザイン・イノベーション
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+                    <button class="btn-neon-cyan px-8 py-4 text-lg font-bold">
+                        → PORTFOLIO
+                    </button>
+                    <button class="btn-neon-pink px-8 py-4 text-lg font-bold">
+                        → CONTACT
+                    </button>
+                </div>
+
+                <!-- Scroll indicator -->
+                <div class="text-cyan-400 text-sm font-mono animate-bounce">
+                    ↓ SCROLL TO EXPLORE ↓
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS Section -->
+        <section class="py-20 px-6 bg-gradient-to-b from-[#0A0A0F] to-[#1A1A2E] relative">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-5xl md:text-6xl font-black mb-16 neon-pink text-center">
+                    SKILLS & TECH STACK
+                </h2>
+
+                <!-- Skills Grid -->
+                <div class="grid md:grid-cols-3 gap-8 mb-12">
+                    <!-- Frontend -->
+                    <div class="border-2 p-8 border-neon-cyan relative group">
+                        <h3 class="text-2xl font-bold neon-cyan mb-6">FRONTEND</h3>
+                        <div class="space-y-3">
+                            <span class="skill-badge skill-badge-cyan">React</span>
+                            <span class="skill-badge skill-badge-cyan">TypeScript</span>
+                            <span class="skill-badge skill-badge-cyan">Next.js</span>
+                            <span class="skill-badge skill-badge-cyan">Tailwind CSS</span>
+                            <span class="skill-badge skill-badge-cyan">Framer Motion</span>
+                        </div>
+                    </div>
+
+                    <!-- Backend -->
+                    <div class="border-2 p-8 border-neon-pink relative group">
+                        <h3 class="text-2xl font-bold neon-pink mb-6">BACKEND</h3>
+                        <div class="space-y-3">
+                            <span class="skill-badge skill-badge-pink">Python</span>
+                            <span class="skill-badge skill-badge-pink">Node.js</span>
+                            <span class="skill-badge skill-badge-pink">Express</span>
+                            <span class="skill-badge skill-badge-pink">SQL</span>
+                            <span class="skill-badge skill-badge-pink">REST API</span>
+                        </div>
+                    </div>
+
+                    <!-- DevOps -->
+                    <div class="border-2 p-8 border-[#9D4EDD] relative group">
+                        <h3 class="text-2xl font-bold mb-6" style="color: #9D4EDD; text-shadow: 0 0 10px rgba(157, 78, 221, 0.8);">DEVOPS</h3>
+                        <div class="space-y-3">
+                            <span class="skill-badge skill-badge-purple">Docker</span>
+                            <span class="skill-badge skill-badge-purple">Git</span>
+                            <span class="skill-badge skill-badge-purple">CI/CD</span>
+                            <span class="skill-badge skill-badge-purple">GitHub Actions</span>
+                            <span class="skill-badge skill-badge-purple">AWS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS Section -->
+        <section class="py-20 px-6 relative">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-5xl md:text-6xl font-black mb-16 neon-cyan text-center">
+                    FEATURED PROJECTS
+                </h2>
+
+                <!-- Projects Grid -->
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Project 1: BOTANICAL BREW -->
+                    <div class="border-2 border-neon-cyan p-8 group hover:border-neon-pink transition-all duration-300">
+                        <div class="flex items-start justify-between mb-4">
+                            <h3 class="text-3xl font-black neon-cyan group-hover:neon-pink">BOTANICAL BREW</h3>
+                            <span class="text-xs font-bold text-yellow-300">[LIVE]</span>
+                        </div>
+                        <p class="text-gray-300 mb-6 leading-relaxed">
+                            植物の育成管理アプリケーション。リアルタイム通知、データ可視化、マルチプラットフォーム対応。
+                        </p>
+                        <div class="space-y-3 mb-6">
+                            <div class="text-sm font-mono text-cyan-400">&gt; React + TypeScript</div>
+                            <div class="text-sm font-mono text-cyan-400">&gt; Next.js App Router</div>
+                            <div class="text-sm font-mono text-cyan-400">&gt; Firebase</div>
+                        </div>
+                        <a href="#" class="cyber-link font-bold inline-block">
+                            → VIEW PROJECT
+                        </a>
+                    </div>
+
+                    <!-- Project 2: KEI-bot -->
+                    <div class="border-2 border-neon-pink p-8 group hover:border-neon-cyan transition-all duration-300">
+                        <div class="flex items-start justify-between mb-4">
+                            <h3 class="text-3xl font-black neon-pink group-hover:neon-cyan">KEI-BOT</h3>
+                            <span class="text-xs font-bold text-yellow-300">[ACTIVE]</span>
+                        </div>
+                        <p class="text-gray-300 mb-6 leading-relaxed">
+                            AIチャットボット。自然言語処理、マルチターン会話、コンテキスト管理を備えた高精度応答システム。
+                        </p>
+                        <div class="space-y-3 mb-6">
+                            <div class="text-sm font-mono text-pink-400">&gt; Python + FastAPI</div>
+                            <div class="text-sm font-mono text-pink-400">&gt; OpenAI API</div>
+                            <div class="text-sm font-mono text-pink-400">&gt; WebSocket</div>
+                        </div>
+                        <a href="#" class="cyber-link font-bold inline-block">
+                            → VIEW PROJECT
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT Section -->
+        <section class="py-20 px-6 bg-gradient-to-b from-[#1A1A2E] to-[#0A0A0F] relative">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-5xl md:text-6xl font-black mb-12 neon-cyan">GET IN TOUCH</h2>
+
+                <div class="grid md:grid-cols-3 gap-8 mb-16">
+                    <!-- GitHub -->
+                    <a href="#" class="border-2 border-neon-cyan p-8 hover:border-neon-pink transition-all duration-300 group">
+                        <div class="text-4xl mb-4 group-hover:scale-110 transition-transform">
+                            <span class="neon-cyan group-hover:neon-pink">&lt; &gt;</span>
+                        </div>
+                        <h3 class="text-xl font-bold neon-cyan group-hover:neon-pink mb-2">GitHub</h3>
+                        <p class="text-gray-400 text-sm">View my repositories</p>
+                    </a>
+
+                    <!-- Email -->
+                    <div class="border-2 border-neon-pink p-8 hover:border-neon-cyan transition-all duration-300 group">
+                        <div class="text-4xl mb-4 group-hover:scale-110 transition-transform">
+                            <span class="neon-pink group-hover:neon-cyan">@ </span>
+                        </div>
+                        <h3 class="text-xl font-bold neon-pink group-hover:neon-cyan mb-2">Email</h3>
+                        <p class="text-gray-400 text-sm">kei@example.com</p>
+                    </div>
+
+                    <!-- LinkedIn -->
+                    <a href="#" class="border-2 border-[#9D4EDD] p-8 hover:border-neon-cyan transition-all duration-300 group">
+                        <div class="text-4xl mb-4 group-hover:scale-110 transition-transform">
+                            <span style="color: #9D4EDD; text-shadow: 0 0 10px rgba(157, 78, 221, 0.8);" class="group-hover:neon-cyan">in</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2" style="color: #9D4EDD;">LinkedIn</h3>
+                        <p class="text-gray-400 text-sm">Connect with me</p>
+                    </a>
+                </div>
+
+                <!-- Footer -->
+                <div class="text-gray-500 text-sm font-mono border-t border-gray-700 pt-8">
+                    <div>$ KEIFOLIO v2.0 — Cyberpunk Edition</div>
+                    <div class="mt-2">&copy; 2025 KEI. All systems online.</div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

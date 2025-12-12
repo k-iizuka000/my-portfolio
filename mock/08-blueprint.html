@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>kei - Full Stack Engineer | Blueprint</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* グリッドパターン背景 */
+    body {
+      background: linear-gradient(0deg, #1e3a5f 0%, #162d47 100%);
+      background-attachment: fixed;
+    }
+
+    .grid-bg {
+      background-image:
+        linear-gradient(0deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      position: relative;
+    }
+
+    /* グリッド線アニメーション */
+    @keyframes grid-pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+
+    .grid-line {
+      animation: grid-pulse 4s ease-in-out infinite;
+    }
+
+    /* グローエフェクト */
+    .glow {
+      text-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+    }
+
+    /* ボックス装飾 */
+    .blueprint-box {
+      border: 2px solid rgba(96, 165, 250, 0.5);
+      background: rgba(15, 23, 42, 0.6);
+      box-shadow: inset 0 0 20px rgba(59, 130, 246, 0.1),
+                  0 0 20px rgba(59, 130, 246, 0.2);
+    }
+
+    .blueprint-box:hover {
+      border-color: rgba(96, 165, 250, 0.8);
+      box-shadow: inset 0 0 20px rgba(59, 130, 246, 0.2),
+                  0 0 30px rgba(59, 130, 246, 0.4);
+    }
+
+    /* 寸法線風のデコレーション */
+    .dimension-line {
+      border-top: 1px solid rgba(96, 165, 250, 0.4);
+      border-left: 1px solid rgba(96, 165, 250, 0.4);
+      border-right: 1px solid rgba(96, 165, 250, 0.4);
+      position: relative;
+    }
+
+    .dimension-marker {
+      width: 12px;
+      height: 12px;
+      border: 1px solid rgba(96, 165, 250, 0.6);
+      background: rgba(59, 130, 246, 0.2);
+    }
+
+    /* リンク装飾 */
+    .tech-link {
+      position: relative;
+      color: #60a5fa;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-bottom: 1px solid rgba(96, 165, 250, 0.3);
+      padding-bottom: 2px;
+    }
+
+    .tech-link:hover {
+      color: #93c5fd;
+      border-bottom-color: rgba(96, 165, 250, 0.8);
+      text-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+    }
+
+    /* スキルタグ */
+    .skill-tag {
+      display: inline-block;
+      border: 1px solid rgba(96, 165, 250, 0.5);
+      padding: 4px 8px;
+      margin: 4px;
+      font-size: 12px;
+      color: #93c5fd;
+      background: rgba(30, 58, 95, 0.8);
+      transition: all 0.3s ease;
+    }
+
+    .skill-tag:hover {
+      border-color: #60a5fa;
+      background: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+    }
+
+    /* セクション区切り線 */
+    .section-divider {
+      border-top: 1px solid rgba(96, 165, 250, 0.3);
+      border-bottom: 1px dashed rgba(96, 165, 250, 0.2);
+    }
+
+    /* テキスト装飾 */
+    .text-blueprint {
+      color: #93c5fd;
+    }
+
+    .text-accent {
+      color: #60a5fa;
+    }
+
+    .text-secondary {
+      color: rgba(147, 197, 253, 0.7);
+    }
+
+    /* ボタン */
+    .btn-blueprint {
+      border: 1.5px solid rgba(96, 165, 250, 0.6);
+      color: #60a5fa;
+      background: rgba(15, 23, 42, 0.4);
+      padding: 8px 16px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-blueprint:hover {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: #60a5fa;
+      color: #93c5fd;
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+    }
+
+    /* アニメーション */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in-down {
+      animation: fadeInDown 0.8s ease;
+    }
+
+    .animate-fade-in-up {
+      animation: fadeInUp 0.8s ease;
+    }
+
+    /* スキャンラインエフェクト */
+    .scanlines::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.02),
+        rgba(255, 255, 255, 0.02) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="grid-bg text-white min-h-screen">
+  <!-- スキャンラインエフェクト -->
+  <div class="scanlines fixed inset-0 pointer-events-none z-10"></div>
+
+  <!-- メインコンテナ -->
+  <div class="relative z-0 min-h-screen flex flex-col">
+    <!-- ヘッダー -->
+    <header class="border-b section-divider py-8 px-4 sm:px-8">
+      <div class="max-w-5xl mx-auto">
+        <!-- グリッドコーナーマーク -->
+        <div class="flex items-start justify-between mb-8">
+          <div class="flex gap-2">
+            <div class="dimension-marker"></div>
+            <div class="dimension-marker"></div>
+          </div>
+          <div class="text-xs text-secondary">[ BLUEPRINT / WIREFRAME ]</div>
+          <div class="flex gap-2">
+            <div class="dimension-marker"></div>
+            <div class="dimension-marker"></div>
+          </div>
+        </div>
+
+        <!-- ヒーロー -->
+        <div class="animate-fade-in-down">
+          <h1 class="text-4xl sm:text-5xl font-bold text-accent glow mb-2">
+            kei
+          </h1>
+          <p class="text-lg sm:text-2xl text-secondary mb-4">
+            &gt; Full Stack Engineer
+          </p>
+          <p class="text-sm text-secondary max-w-2xl leading-relaxed">
+            技術設計から実装まで。TypeScript/React/Node.js/AWS。
+            <br/>
+            「誰かのコード、誰かの課題」を解決するエンジニア。
+          </p>
+        </div>
+
+        <!-- グリッドコーナーマーク（下） -->
+        <div class="flex items-end justify-between mt-8">
+          <div class="flex gap-2">
+            <div class="dimension-marker"></div>
+            <div class="dimension-marker"></div>
+          </div>
+          <div class="text-xs text-secondary grid-line">&lt; PORTFOLIO &gt;</div>
+          <div class="flex gap-2">
+            <div class="dimension-marker"></div>
+            <div class="dimension-marker"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- スキルセクション -->
+    <section class="py-12 px-4 sm:px-8 border-b section-divider">
+      <div class="max-w-5xl mx-auto">
+        <h2 class="text-xl sm:text-2xl font-bold text-accent mb-6 glow">
+          &gt; TECHNICAL STACK
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 animate-fade-in-up">
+          <!-- Frontend -->
+          <div class="blueprint-box p-6">
+            <h3 class="text-sm font-bold text-accent mb-4 border-b border-blue-400/30 pb-2">
+              [ FRONTEND ]
+            </h3>
+            <div class="space-y-1 text-secondary text-sm">
+              <div>TypeScript</div>
+              <div>React / Next.js</div>
+              <div>Tailwind CSS</div>
+              <div>Framer Motion</div>
+              <div>Vue.js</div>
+            </div>
+          </div>
+
+          <!-- Backend -->
+          <div class="blueprint-box p-6">
+            <h3 class="text-sm font-bold text-accent mb-4 border-b border-blue-400/30 pb-2">
+              [ BACKEND ]
+            </h3>
+            <div class="space-y-1 text-secondary text-sm">
+              <div>Node.js / Express</div>
+              <div>Java / Spring Boot</div>
+              <div>Python / FastAPI</div>
+              <div>GraphQL / REST API</div>
+              <div>Docker</div>
+            </div>
+          </div>
+
+          <!-- Infrastructure -->
+          <div class="blueprint-box p-6">
+            <h3 class="text-sm font-bold text-accent mb-4 border-b border-blue-400/30 pb-2">
+              [ INFRASTRUCTURE ]
+            </h3>
+            <div class="space-y-1 text-secondary text-sm">
+              <div>AWS (EC2, RDS, S3)</div>
+              <div>Git / GitHub</div>
+              <div>CI/CD</div>
+              <div>PostgreSQL</div>
+              <div>Linux</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- スキルワード -->
+        <div class="mt-8">
+          <p class="text-sm text-secondary mb-4">&gt; KEYWORDS</p>
+          <div>
+            <span class="skill-tag">システム設計</span>
+            <span class="skill-tag">API設計</span>
+            <span class="skill-tag">DB最適化</span>
+            <span class="skill-tag">クリーンコード</span>
+            <span class="skill-tag">テスト駆動開発</span>
+            <span class="skill-tag">パフォーマンス最適化</span>
+            <span class="skill-tag">DevOps</span>
+            <span class="skill-tag">チームリード</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- プロジェクトセクション -->
+    <section class="py-12 px-4 sm:px-8 border-b section-divider">
+      <div class="max-w-5xl mx-auto">
+        <h2 class="text-xl sm:text-2xl font-bold text-accent mb-6 glow">
+          &gt; FEATURED PROJECTS
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 animate-fade-in-up" style="animation-delay: 0.2s;">
+          <!-- Project 1 -->
+          <div class="blueprint-box p-6 group">
+            <h3 class="text-base font-bold text-accent mb-2 group-hover:glow transition-all">
+              My Portfolio
+            </h3>
+            <p class="text-sm text-secondary mb-4 leading-relaxed">
+              Next.js 15 + React 19 + Tailwind CSS で構築した本ポートフォリオサイト。
+              Framer Motion によるスムーズなアニメーション、
+              レスポンシブデザイン対応。
+            </p>
+            <div class="flex gap-2 mb-4">
+              <span class="skill-tag">Next.js</span>
+              <span class="skill-tag">TypeScript</span>
+              <span class="skill-tag">Tailwind</span>
+            </div>
+            <a href="#" class="btn-blueprint text-sm">
+              View Project →
+            </a>
+          </div>
+
+          <!-- Project 2 -->
+          <div class="blueprint-box p-6 group">
+            <h3 class="text-base font-bold text-accent mb-2 group-hover:glow transition-all">
+              System Architecture
+            </h3>
+            <p class="text-sm text-secondary mb-4 leading-relaxed">
+              マイクロサービスアーキテクチャの設計・実装。
+              Docker Compose、Kubernetes 対応。
+              API Gateway、認証層、DB最適化を実装。
+            </p>
+            <div class="flex gap-2 mb-4">
+              <span class="skill-tag">Docker</span>
+              <span class="skill-tag">Node.js</span>
+              <span class="skill-tag">AWS</span>
+            </div>
+            <a href="#" class="btn-blueprint text-sm">
+              View Project →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- リンクセクション -->
+    <section class="py-12 px-4 sm:px-8">
+      <div class="max-w-5xl mx-auto">
+        <h2 class="text-xl sm:text-2xl font-bold text-accent mb-6 glow">
+          &gt; CONNECT
+        </h2>
+
+        <div class="space-y-3 animate-fade-in-up" style="animation-delay: 0.4s;">
+          <div class="blueprint-box p-4 inline-block">
+            <a href="https://github.com" target="_blank" class="tech-link flex items-center gap-2">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              github.com/kei
+            </a>
+          </div>
+
+          <div class="blueprint-box p-4 inline-block ml-0 sm:ml-4">
+            <a href="https://twitter.com" target="_blank" class="tech-link flex items-center gap-2">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 7-7 7-7"/>
+              </svg>
+              @kei_engineer
+            </a>
+          </div>
+        </div>
+
+        <!-- フッター -->
+        <div class="mt-12 pt-8 border-t section-divider">
+          <div class="flex items-center justify-between text-xs text-secondary">
+            <div>&lt; BLUEPRINT VERSION &gt;</div>
+            <div class="grid-line">2025.12.11</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 右下グリッドコーナー -->
+  <div class="fixed bottom-4 right-4 flex gap-2 z-0">
+    <div class="dimension-marker"></div>
+    <div class="dimension-marker"></div>
+  </div>
+
+  <!-- 左上グリッドコーナー -->
+  <div class="fixed top-4 left-4 flex gap-2 z-0">
+    <div class="dimension-marker"></div>
+    <div class="dimension-marker"></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kei - Full Stack Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .glass-hover:hover {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .neon-glow {
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+            background-size: 300% 300%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .skill-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .skill-badge:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(0, 212, 255, 0.3);
+        }
+
+        .button-glass {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .button-glass:hover {
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 24px rgba(0, 212, 255, 0.4);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="text-white overflow-x-hidden">
+    <!-- グラデーション背景 -->
+    <div class="gradient-bg fixed inset-0 z-0"></div>
+
+    <!-- オーロラ効果 -->
+    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" style="animation-delay: 2s;"></div>
+        <div class="absolute bottom-1/4 left-1/2 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" style="animation-delay: 4s;"></div>
+    </div>
+
+    <!-- コンテンツ -->
+    <div class="relative z-10 min-h-screen flex flex-col">
+        <!-- ナビゲーション -->
+        <nav class="glass-card mx-4 mt-4 rounded-2xl p-4 backdrop-blur-xl">
+            <div class="max-w-6xl mx-auto flex justify-between items-center">
+                <div class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                    kei.dev
+                </div>
+                <div class="flex gap-6 text-sm">
+                    <a href="#skills" class="hover:text-cyan-300 transition-colors">Skills</a>
+                    <a href="#projects" class="hover:text-cyan-300 transition-colors">Projects</a>
+                    <a href="https://github.com" target="_blank" class="hover:text-cyan-300 transition-colors">GitHub</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ヒーロー -->
+        <div class="flex-1 flex items-center justify-center px-4 py-20">
+            <div class="text-center max-w-3xl">
+                <!-- プロフィール画像エリア -->
+                <div class="mb-8 flex justify-center">
+                    <div class="glass-card p-1 rounded-full w-32 h-32 animate-float">
+                        <div class="w-full h-full bg-gradient-to-br from-cyan-400 to-purple-500 rounded-full flex items-center justify-center text-5xl font-bold">
+                            K
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 名前 -->
+                <h1 class="text-6xl md:text-7xl font-bold mb-4">
+                    <span class="bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">
+                        kei
+                    </span>
+                </h1>
+
+                <!-- 肩書き -->
+                <h2 class="text-2xl md:text-3xl font-medium mb-6 text-cyan-200">
+                    Full Stack Engineer
+                </h2>
+
+                <!-- 説明文 -->
+                <p class="text-lg text-gray-200 mb-10 leading-relaxed max-w-xl mx-auto">
+                    フロントエンドからバックエンド、インフラまで。モダンテクノロジーを活用して、「動くこと」を最優先としたエンジニアです。
+                </p>
+
+                <!-- CTA ボタン -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="button-glass px-8 py-3 rounded-lg font-semibold text-white">
+                        プロジェクトを見る
+                    </button>
+                    <button class="button-glass px-8 py-3 rounded-lg font-semibold text-cyan-300">
+                        お問い合わせ
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- スキルセクション -->
+        <section id="skills" class="relative z-10 px-4 py-20 max-w-6xl mx-auto w-full">
+            <div class="glass-card rounded-3xl p-12 backdrop-blur-xl">
+                <h3 class="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-cyan-300 to-purple-300 bg-clip-text text-transparent">
+                    Technical Skills
+                </h3>
+
+                <!-- スキルバッジ -->
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    <!-- React -->
+                    <div class="skill-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">⚛️</div>
+                        <div class="font-semibold text-sm">React</div>
+                        <div class="text-xs text-gray-300">19.0.0</div>
+                    </div>
+
+                    <!-- TypeScript -->
+                    <div class="skill-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">🔷</div>
+                        <div class="font-semibold text-sm">TypeScript</div>
+                        <div class="text-xs text-gray-300">5.0+</div>
+                    </div>
+
+                    <!-- Next.js -->
+                    <div class="skill-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">▲</div>
+                        <div class="font-semibold text-sm">Next.js</div>
+                        <div class="text-xs text-gray-300">15.0+</div>
+                    </div>
+
+                    <!-- Python -->
+                    <div class="skill-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">🐍</div>
+                        <div class="font-semibold text-sm">Python</div>
+                        <div class="text-xs text-gray-300">3.10+</div>
+                    </div>
+
+                    <!-- Tailwind CSS -->
+                    <div class="skill-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">🎨</div>
+                        <div class="font-semibold text-sm">Tailwind</div>
+                        <div class="text-xs text-gray-300">3.4+</div>
+                    </div>
+
+                    <!-- Node.js -->
+                    <div class="skill-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">🟢</div>
+                        <div class="font-semibold text-sm">Node.js</div>
+                        <div class="text-xs text-gray-300">20+</div>
+                    </div>
+
+                    <!-- Docker -->
+                    <div class="skill-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">🐳</div>
+                        <div class="font-semibold text-sm">Docker</div>
+                        <div class="text-xs text-gray-300">Latest</div>
+                    </div>
+
+                    <!-- Git -->
+                    <div class="skill-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">📝</div>
+                        <div class="font-semibold text-sm">Git</div>
+                        <div class="text-xs text-gray-300">Proficient</div>
+                    </div>
+
+                    <!-- AWS -->
+                    <div class="skill-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">☁️</div>
+                        <div class="font-semibold text-sm">AWS</div>
+                        <div class="text-xs text-gray-300">EC2, S3</div>
+                    </div>
+
+                    <!-- GraphQL -->
+                    <div class="skill-badge rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">▶️</div>
+                        <div class="font-semibold text-sm">GraphQL</div>
+                        <div class="text-xs text-gray-300">Apollo</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- プロジェクトセクション -->
+        <section id="projects" class="relative z-10 px-4 py-20 max-w-6xl mx-auto w-full">
+            <h3 class="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-cyan-300 to-purple-300 bg-clip-text text-transparent">
+                Featured Projects
+            </h3>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- BOTANICAL BREW -->
+                <div class="glass-card glass-hover rounded-2xl p-8 backdrop-blur-xl">
+                    <div class="mb-4 text-4xl">🌿</div>
+                    <h4 class="text-2xl font-bold mb-3 text-cyan-300">BOTANICAL BREW</h4>
+                    <p class="text-gray-300 mb-6">
+                        モダンな植物管理アプリケーション。リアルタイムデータベース連携で、ユーザーの植物の健康状態を可視化します。
+                    </p>
+                    <div class="flex gap-2 flex-wrap mb-6">
+                        <span class="skill-badge px-3 py-1 rounded text-xs">React</span>
+                        <span class="skill-badge px-3 py-1 rounded text-xs">Firebase</span>
+                        <span class="skill-badge px-3 py-1 rounded text-xs">Tailwind</span>
+                    </div>
+                    <a href="https://botanical-brew.example.com" target="_blank" class="text-cyan-300 hover:text-cyan-200 font-semibold text-sm">
+                        プロジェクトへ →
+                    </a>
+                </div>
+
+                <!-- KEI-bot -->
+                <div class="glass-card glass-hover rounded-2xl p-8 backdrop-blur-xl">
+                    <div class="mb-4 text-4xl">🤖</div>
+                    <h4 class="text-2xl font-bold mb-3 text-purple-300">KEI-bot</h4>
+                    <p class="text-gray-300 mb-6">
+                        LLMベースのチャットボット。複数の言語に対応し、自然な会話フローを実現しています。
+                    </p>
+                    <div class="flex gap-2 flex-wrap mb-6">
+                        <span class="skill-badge px-3 py-1 rounded text-xs">Python</span>
+                        <span class="skill-badge px-3 py-1 rounded text-xs">LLM API</span>
+                        <span class="skill-badge px-3 py-1 rounded text-xs">FastAPI</span>
+                    </div>
+                    <a href="https://kei-bot.example.com" target="_blank" class="text-purple-300 hover:text-purple-200 font-semibold text-sm">
+                        プロジェクトへ →
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- フッター -->
+        <footer class="relative z-10 border-t border-white/20 backdrop-blur-sm mt-20">
+            <div class="max-w-6xl mx-auto px-4 py-12 text-center">
+                <div class="mb-6 flex justify-center gap-6">
+                    <a href="https://github.com" target="_blank" class="glass-hover rounded-lg p-3 inline-block">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                </div>
+                <p class="text-gray-400 text-sm">
+                    © 2025 kei - Full Stack Engineer. Built with React, TypeScript & Tailwind CSS.
+                </p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

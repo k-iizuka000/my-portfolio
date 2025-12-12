@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kei - Full Stack Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500;600&display=swap');
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000000;
+            color: #ffffff;
+        }
+
+        .luxury-gold {
+            color: #D4AF37;
+        }
+
+        .gold-border {
+            border-color: #D4AF37;
+        }
+
+        .gold-bg {
+            background-color: #D4AF37;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .glass-border {
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+        }
+
+        .gold-glow {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .gold-glow:hover {
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .skill-badge {
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-badge:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.3);
+            color: #D4AF37;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: 8px;
+            padding: 24px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover {
+            background: rgba(212, 175, 55, 0.05);
+            border-color: rgba(212, 175, 55, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .link-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border: 1.5px solid #D4AF37;
+            border-radius: 6px;
+            color: #D4AF37;
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(212, 175, 55, 0.1);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .link-button:hover::before {
+            left: 0;
+        }
+
+        .link-button:hover {
+            color: #000000;
+            background: #D4AF37;
+        }
+
+        .accent-line {
+            height: 2px;
+            background: linear-gradient(90deg, #D4AF37, transparent);
+            margin: 40px 0;
+        }
+
+        .subtle-animation {
+            animation: subtle-float 6s ease-in-out infinite;
+        }
+
+        @keyframes subtle-float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 8px 12px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.875rem;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 12px;
+            width: 0;
+            height: 1px;
+            background: #D4AF37;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #D4AF37;
+        }
+
+        .nav-link:hover::after {
+            width: calc(100% - 24px);
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-black bg-opacity-80 backdrop-blur-sm z-50 border-b divider">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="luxury-gold font-bold text-lg tracking-widest">KEI</div>
+            <div class="flex gap-8">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center px-6 pt-20 relative overflow-hidden">
+        <!-- Background decoration -->
+        <div class="absolute top-0 right-0 w-96 h-96 rounded-full opacity-5 blur-3xl" style="background: #D4AF37;"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 rounded-full opacity-5 blur-3xl" style="background: #D4AF37;"></div>
+
+        <div class="max-w-4xl mx-auto text-center relative z-10 fade-in-up">
+            <div class="mb-6">
+                <span class="inline-block px-4 py-2 border gold-border text-xs tracking-widest luxury-gold rounded">FULL STACK ENGINEER</span>
+            </div>
+
+            <h1 class="hero-title text-white mb-6">
+                Kei
+            </h1>
+
+            <p class="text-xl text-gray-400 mb-12 leading-relaxed max-w-2xl mx-auto font-light">
+                Crafting elegant solutions through modern technologies.
+                Specialized in full-stack development with focus on performance and user experience.
+            </p>
+
+            <div class="flex gap-6 justify-center flex-wrap">
+                <a href="#projects" class="link-button">View My Work</a>
+                <a href="#contact" class="link-button">Get in Touch</a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 subtle-animation">
+            <svg class="w-6 h-6 luxury-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 px-6 border-t divider">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="section-title mb-12 text-white">About</h2>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <p class="text-gray-300 text-lg leading-relaxed mb-6 font-light">
+                        With over a decade of experience in software engineering, I've developed a deep passion for creating scalable, efficient, and beautiful digital experiences.
+                    </p>
+                    <p class="text-gray-400 text-base leading-relaxed font-light">
+                        My approach combines technical excellence with user-centric design principles. I believe great software is the intersection of clean code, thoughtful architecture, and intuitive interfaces.
+                    </p>
+                </div>
+                <div class="space-y-4">
+                    <div class="glass-border p-4 gold-glow">
+                        <div class="text-3xl luxury-gold font-bold">10+</div>
+                        <div class="text-gray-400 text-sm mt-2">Years of Experience</div>
+                    </div>
+                    <div class="glass-border p-4 gold-glow">
+                        <div class="text-3xl luxury-gold font-bold">50+</div>
+                        <div class="text-gray-400 text-sm mt-2">Projects Delivered</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="accent-line"></div>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 px-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="section-title mb-16 text-white">Technical Skills</h2>
+
+            <div class="space-y-12">
+                <!-- Frontend -->
+                <div>
+                    <h3 class="text-sm uppercase tracking-widest luxury-gold mb-6 font-semibold">Frontend</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="skill-badge">JavaScript / TypeScript</span>
+                        <span class="skill-badge">React / Next.js</span>
+                        <span class="skill-badge">Vue.js</span>
+                        <span class="skill-badge">Tailwind CSS</span>
+                        <span class="skill-badge">Framer Motion</span>
+                        <span class="skill-badge">HTML5 / CSS3</span>
+                    </div>
+                </div>
+
+                <!-- Backend -->
+                <div>
+                    <h3 class="text-sm uppercase tracking-widest luxury-gold mb-6 font-semibold">Backend</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="skill-badge">Node.js / Express</span>
+                        <span class="skill-badge">Python / Django</span>
+                        <span class="skill-badge">Java / Spring Boot</span>
+                        <span class="skill-badge">PostgreSQL / MongoDB</span>
+                        <span class="skill-badge">REST APIs</span>
+                        <span class="skill-badge">GraphQL</span>
+                    </div>
+                </div>
+
+                <!-- DevOps & Tools -->
+                <div>
+                    <h3 class="text-sm uppercase tracking-widest luxury-gold mb-6 font-semibold">DevOps & Tools</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="skill-badge">Docker</span>
+                        <span class="skill-badge">Kubernetes</span>
+                        <span class="skill-badge">AWS / GCP</span>
+                        <span class="skill-badge">GitHub Actions</span>
+                        <span class="skill-badge">Git</span>
+                        <span class="skill-badge">CI/CD</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="accent-line"></div>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 px-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="section-title mb-16 text-white">Featured Projects</h2>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <h3 class="text-xl font-semibold text-white mb-3">Real-time Analytics Dashboard</h3>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                        High-performance dashboard built with React, TypeScript, and WebSockets. Features real-time data visualization with D3.js and serverless backend architecture.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="text-xs px-2 py-1 rounded" style="background: rgba(212, 175, 55, 0.1); color: #D4AF37;">React</span>
+                        <span class="text-xs px-2 py-1 rounded" style="background: rgba(212, 175, 55, 0.1); color: #D4AF37;">TypeScript</span>
+                        <span class="text-xs px-2 py-1 rounded" style="background: rgba(212, 175, 55, 0.1); color: #D4AF37;">AWS</span>
+                    </div>
+                    <a href="#" class="link-button text-sm">
+                        View Project →
+                    </a>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <h3 class="text-xl font-semibold text-white mb-3">E-commerce Platform</h3>
+                    <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                        Full-stack e-commerce solution with Next.js frontend and Node.js backend. Integrated payment processing, inventory management, and order analytics.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="text-xs px-2 py-1 rounded" style="background: rgba(212, 175, 55, 0.1); color: #D4AF37;">Next.js</span>
+                        <span class="text-xs px-2 py-1 rounded" style="background: rgba(212, 175, 55, 0.1); color: #D4AF37;">Node.js</span>
+                        <span class="text-xs px-2 py-1 rounded" style="background: rgba(212, 175, 55, 0.1); color: #D4AF37;">PostgreSQL</span>
+                    </div>
+                    <a href="#" class="link-button text-sm">
+                        View Project →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="accent-line"></div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 px-6 border-t divider">
+        <div class="max-w-2xl mx-auto text-center">
+            <h2 class="section-title mb-8 text-white">Get in Touch</h2>
+            <p class="text-gray-400 text-lg mb-12 leading-relaxed font-light">
+                Interested in collaborating or discussing an opportunity? I'd love to hear from you.
+            </p>
+
+            <div class="flex gap-6 justify-center flex-wrap mb-16">
+                <a href="https://github.com" class="link-button">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+                <a href="mailto:contact@example.com" class="link-button">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    Email
+                </a>
+            </div>
+        </div>
+
+        <div class="border-t divider"></div>
+        <div class="max-w-4xl mx-auto py-12 text-center text-gray-500 text-sm">
+            <p>© 2025 Kei. Crafted with precision and care.</p>
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kei - Full Stack Engineer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Aurora Gradient Mesh Background Animation */
+        @keyframes aurora-float-1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -30px) scale(1.1); }
+        }
+        @keyframes aurora-float-2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-40px, 30px) scale(0.95); }
+        }
+        @keyframes aurora-float-3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(20px, 40px) scale(1.05); }
+        }
+        @keyframes aurora-float-4 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-50px, -20px) scale(0.9); }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { opacity: 0.6; filter: blur(80px); }
+            50% { opacity: 0.8; filter: blur(100px); }
+        }
+
+        .aurora-gradient {
+            background: radial-gradient(
+                circle at 20% 50%,
+                rgba(168, 85, 247, 0.4) 0%,
+                transparent 50%
+            ),
+            radial-gradient(
+                circle at 80% 80%,
+                rgba(59, 130, 246, 0.4) 0%,
+                transparent 50%
+            ),
+            radial-gradient(
+                circle at 40% 0%,
+                rgba(236, 72, 153, 0.3) 0%,
+                transparent 60%
+            ),
+            radial-gradient(
+                circle at 60% 100%,
+                rgba(34, 211, 238, 0.3) 0%,
+                transparent 60%
+            );
+            background-color: #0f172a;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -2;
+        }
+
+        .aurora-blob-1 {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.15), transparent);
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            animation: aurora-float-1 8s ease-in-out infinite;
+            filter: blur(80px);
+            left: 10%;
+            top: 20%;
+        }
+
+        .aurora-blob-2 {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.12), transparent);
+            border-radius: 70% 30% 40% 60% / 50% 40% 30% 60%;
+            animation: aurora-float-2 10s ease-in-out infinite;
+            filter: blur(80px);
+            right: 15%;
+            top: 40%;
+        }
+
+        .aurora-blob-3 {
+            position: absolute;
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.1), transparent);
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            animation: aurora-float-3 12s ease-in-out infinite;
+            filter: blur(80px);
+            left: 50%;
+            top: 10%;
+        }
+
+        .aurora-blob-4 {
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(34, 211, 238, 0.08), transparent);
+            border-radius: 30% 70% 60% 40% / 30% 60% 40% 70%;
+            animation: aurora-float-4 14s ease-in-out infinite;
+            filter: blur(80px);
+            right: 5%;
+            bottom: 10%;
+        }
+
+        .glass-effect {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.15);
+        }
+
+        .glow-text {
+            text-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+        }
+
+        .skill-badge {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .skill-badge:hover {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .project-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            background: rgba(15, 23, 42, 0.8);
+            border-color: rgba(168, 85, 247, 0.4);
+            transform: translateY(-4px);
+        }
+
+        .social-link {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(168, 85, 247, 0.2);
+            border-color: rgba(168, 85, 247, 0.5);
+            transform: translateY(-3px);
+        }
+
+        .animated-line {
+            height: 2px;
+            background: linear-gradient(90deg,
+                rgba(168, 85, 247, 0.5) 0%,
+                rgba(59, 130, 246, 0.5) 50%,
+                rgba(34, 211, 238, 0.5) 100%);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-white overflow-x-hidden">
+    <!-- Aurora Gradient Background -->
+    <div class="aurora-gradient">
+        <div class="aurora-blob-1"></div>
+        <div class="aurora-blob-2"></div>
+        <div class="aurora-blob-3"></div>
+        <div class="aurora-blob-4"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 min-h-screen flex flex-col">
+        <!-- Navigation -->
+        <nav class="glass-effect fixed top-0 w-full z-20 border-b border-slate-700">
+            <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+                <div class="text-2xl font-bold glow-text">kei</div>
+                <a href="#projects" class="text-slate-300 hover:text-purple-400 transition">Projects</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="flex-1 flex items-center justify-center pt-20">
+            <div class="text-center max-w-3xl px-6">
+                <div class="mb-6">
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 mx-auto mb-8 flex items-center justify-center text-4xl font-bold">
+                        K
+                    </div>
+                </div>
+
+                <h1 class="text-6xl md:text-7xl font-bold mb-4 glow-text">
+                    kei
+                </h1>
+                <p class="text-2xl md:text-3xl text-purple-300 mb-8">
+                    Full Stack Engineer
+                </p>
+                <p class="text-lg text-slate-300 mb-8 leading-relaxed">
+                    TypeScript, React, Node.js を使ったモダンウェブアプリケーション開発。
+                    <br>
+                    クラウドインフラ・DevOps・パフォーマンス最適化が得意です。
+                </p>
+
+                <!-- CTA Button -->
+                <div class="flex gap-4 justify-center mb-12">
+                    <a href="#projects" class="px-8 py-3 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition">
+                        プロジェクトを見る
+                    </a>
+                    <a href="https://github.com" target="_blank" class="px-8 py-3 glass-effect rounded-lg font-semibold hover:border-purple-400 transition">
+                        GitHub
+                    </a>
+                </div>
+
+                <div class="animated-line w-20 mx-auto"></div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="py-20 px-6">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-4xl font-bold mb-12 text-center glow-text">
+                    スキル
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                    <!-- Frontend -->
+                    <div>
+                        <h3 class="text-xl font-bold text-blue-400 mb-4">Frontend</h3>
+                        <div class="space-y-3">
+                            <span class="skill-badge px-4 py-2 rounded-full text-sm inline-block">React 19</span>
+                            <span class="skill-badge px-4 py-2 rounded-full text-sm inline-block">TypeScript</span>
+                            <span class="skill-badge px-4 py-2 rounded-full text-sm inline-block">Next.js 15</span>
+                            <span class="skill-badge px-4 py-2 rounded-full text-sm inline-block">Tailwind CSS</span>
+                            <span class="skill-badge px-4 py-2 rounded-full text-sm inline-block">Framer Motion</span>
+                        </div>
+                    </div>
+
+                    <!-- Backend -->
+                    <div>
+                        <h3 class="text-xl font-bold text-purple-400 mb-4">Backend</h3>
+                        <div class="space-y-3">
+                            <span class="skill-badge px-4 py-2 rounded-full text-sm inline-block">Node.js</span>
+                            <span class="skill-badge px-4 py-2 rounded-full text-sm inline-block">TypeScript</span>
+                            <span class="skill-badge px-4 py-2 rounded-full text-sm inline-block">PostgreSQL</span>
+                            <span class="skill-badge px-4 py-2 rounded-full text-sm inline-block">REST API</span>
+                            <span class="skill-badge px-4 py-2 rounded-full text-sm inline-block">GraphQL</span>
+                        </div>
+                    </div>
+
+                    <!-- DevOps -->
+                    <div>
+                        <h3 class="text-xl font-bold text-cyan-400 mb-4">DevOps</h3>
+                        <div class="space-y-3">
+                            <span class="skill-badge px-4 py-2 rounded-full text-sm inline-block">Docker</span>
+                            <span class="skill-badge px-4 py-2 rounded-full text-sm inline-block">AWS</span>
+                            <span class="skill-badge px-4 py-2 rounded-full text-sm inline-block">GitHub Actions</span>
+                            <span class="skill-badge px-4 py-2 rounded-full text-sm inline-block">Kubernetes</span>
+                            <span class="skill-badge px-4 py-2 rounded-full text-sm inline-block">CI/CD</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 px-6">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-4xl font-bold mb-12 text-center glow-text">
+                    プロジェクト
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                    <!-- Project 1 -->
+                    <a href="https://github.com" target="_blank" class="project-card p-8 rounded-lg group">
+                        <div class="mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center text-xl font-bold mb-4">
+                                🚀
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3 group-hover:text-blue-400 transition">
+                            Real-time Analytics Platform
+                        </h3>
+                        <p class="text-slate-300 mb-6">
+                            React + Node.js + PostgreSQL を使用したリアルタイムダッシュボード。
+                            WebSocket で毎秒 1000 件以上のイベントを処理。
+                        </p>
+                        <div class="flex gap-2 flex-wrap">
+                            <span class="text-xs bg-blue-500/20 text-blue-300 px-3 py-1 rounded">React</span>
+                            <span class="text-xs bg-purple-500/20 text-purple-300 px-3 py-1 rounded">WebSocket</span>
+                            <span class="text-xs bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded">PostgreSQL</span>
+                        </div>
+                    </a>
+
+                    <!-- Project 2 -->
+                    <a href="https://github.com" target="_blank" class="project-card p-8 rounded-lg group">
+                        <div class="mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center text-xl font-bold mb-4">
+                                ⚙️
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3 group-hover:text-purple-400 transition">
+                            Infrastructure as Code Framework
+                        </h3>
+                        <p class="text-slate-300 mb-6">
+                            AWS CDK を用いた IaC フレームワーク。
+                            GitHub Actions で自動デプロイ、本番環境のコード化で管理効率 80% 改善。
+                        </p>
+                        <div class="flex gap-2 flex-wrap">
+                            <span class="text-xs bg-purple-500/20 text-purple-300 px-3 py-1 rounded">AWS</span>
+                            <span class="text-xs bg-orange-500/20 text-orange-300 px-3 py-1 rounded">TypeScript</span>
+                            <span class="text-xs bg-green-500/20 text-green-300 px-3 py-1 rounded">DevOps</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <section class="py-20 px-6 border-t border-slate-800">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex flex-col items-center gap-8">
+                    <h2 class="text-2xl font-bold">Get in touch</h2>
+
+                    <div class="flex gap-4">
+                        <a href="https://github.com" target="_blank" class="social-link">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.343-3.369-1.343-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.544 2.914 1.186.092-.924.35-1.544.636-1.9-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.447-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0110 4.817c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C17.137 18.193 20 14.44 20 10.017 20 4.484 15.522 0 10 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" class="social-link">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84"/>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <p class="text-slate-400 text-center">
+                        © 2025 kei. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

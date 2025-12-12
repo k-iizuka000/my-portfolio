@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kei - Terminal Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Color Scheme - Cool Blue Terminal */
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --text-primary: #58a6ff;
+            --text-secondary: #8b949e;
+            --text-success: #7ee787;
+            --text-link: #79c0ff;
+            --border-color: #30363d;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Terminal Container */
+        .terminal {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            box-shadow: 0 0 30px rgba(88, 166, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .terminal-header {
+            background-color: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .terminal-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .terminal-button {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .btn-close { background-color: #ff6b6b; }
+        .btn-minimize { background-color: #feca57; }
+        .btn-maximize { background-color: #7ee787; }
+
+        .terminal-title {
+            flex: 1;
+            margin-left: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .terminal-output {
+            padding: 1.5rem;
+            min-height: 500px;
+            overflow-y: auto;
+            max-height: 600px;
+        }
+
+        .terminal-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .terminal-output::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        .terminal-output::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        .terminal-output::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        /* Terminal Lines */
+        .terminal-line {
+            margin-bottom: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .terminal-prompt {
+            color: var(--text-primary);
+            font-weight: 600;
+            user-select: none;
+        }
+
+        .terminal-text {
+            color: var(--text-secondary);
+            word-break: break-word;
+        }
+
+        .terminal-text.success {
+            color: var(--text-success);
+        }
+
+        .terminal-text.primary {
+            color: var(--text-primary);
+        }
+
+        .terminal-text.link {
+            color: var(--text-link);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .terminal-text.link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Typing Animation */
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            0%, 49% { border-color: var(--text-primary); }
+            50%, 100% { border-color: transparent; }
+        }
+
+        .typing {
+            overflow: hidden;
+            border-right: 2px solid var(--text-primary);
+            animation: typing 0.5s steps(40, end), blink 1s infinite;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        /* Input Section */
+        .terminal-input-section {
+            border-top: 1px solid var(--border-color);
+            padding: 1.5rem 1.5rem 1rem 1.5rem;
+            background-color: var(--bg-primary);
+        }
+
+        .terminal-input-wrapper {
+            position: relative;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .terminal-prompt-input {
+            color: var(--text-primary);
+            font-weight: 600;
+            user-select: none;
+        }
+
+        #commandInput {
+            flex: 1;
+            background-color: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            outline: none;
+            caret-color: var(--text-primary);
+        }
+
+        #commandInput::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        /* Autocomplete Dropdown */
+        .autocomplete-dropdown {
+            position: absolute;
+            bottom: 100%;
+            left: 2rem;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            margin-bottom: 0.25rem;
+            min-width: 200px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 50;
+            display: none;
+        }
+
+        .autocomplete-dropdown.show {
+            display: block;
+        }
+
+        .autocomplete-item {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s;
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .autocomplete-item:hover,
+        .autocomplete-item.selected {
+            background-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        /* Profile Section */
+        .profile-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .profile-item {
+            margin-bottom: 0.75rem;
+        }
+
+        .profile-label {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-block;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-link);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .tag:hover {
+            background-color: var(--border-color);
+        }
+
+        /* Help Section */
+        .help-table {
+            width: 100%;
+            margin-top: 0.5rem;
+            border-collapse: collapse;
+        }
+
+        .help-table td {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .help-table td:first-child {
+            color: var(--text-primary);
+            font-weight: 600;
+            width: 150px;
+            padding-right: 1rem;
+        }
+
+        .help-table td:nth-child(2) {
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .terminal-output {
+                min-height: 400px;
+            }
+
+            .help-table td:first-child {
+                width: 100px;
+            }
+
+            .tag {
+                font-size: 0.75rem;
+                padding: 0.25rem 0.375rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-center bg-cover p-4 md:p-6 lg:p-8">
+    <div class="max-w-4xl mx-auto">
+        <!-- Terminal Window -->
+        <div class="terminal">
+            <!-- Header -->
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <div class="terminal-button btn-close"></div>
+                    <div class="terminal-button btn-minimize"></div>
+                    <div class="terminal-button btn-maximize"></div>
+                </div>
+                <div class="terminal-title">kei@portfolio ~ %</div>
+            </div>
+
+            <!-- Output Area -->
+            <div class="terminal-output" id="terminalOutput">
+                <!-- Initial Content -->
+                <div class="terminal-line">
+                    <span class="terminal-text success">$</span>
+                    <span class="terminal-text">Welcome to kei's Terminal Portfolio</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-text">Type <span class="terminal-text primary">'help'</span> to see available commands</span>
+                </div>
+            </div>
+
+            <!-- Input Section -->
+            <div class="terminal-input-section">
+                <div class="terminal-input-wrapper">
+                    <span class="terminal-prompt-input">$</span>
+                    <input
+                        type="text"
+                        id="commandInput"
+                        placeholder="Enter command..."
+                        autocomplete="off"
+                    >
+                    <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center text-sm text-gray-500 mt-4">
+            <p>© 2025 kei - Full Stack Engineer</p>
+        </div>
+    </div>
+
+    <script>
+        // Command Database
+        const commands = {
+            whoami: {
+                description: 'Display profile information',
+                execute: () => displayWhoami()
+            },
+            skills: {
+                description: 'Display technical skills',
+                execute: () => displaySkills()
+            },
+            projects: {
+                description: 'Display projects',
+                execute: () => displayProjects()
+            },
+            github: {
+                description: 'Open GitHub profile',
+                execute: () => displayGithub()
+            },
+            help: {
+                description: 'Show all commands',
+                execute: () => displayHelp()
+            },
+            clear: {
+                description: 'Clear the terminal',
+                execute: () => clearTerminal()
+            }
+        };
+
+        const output = document.getElementById('terminalOutput');
+        const input = document.getElementById('commandInput');
+        const dropdown = document.getElementById('autocompleteDropdown');
+
+        // Initialize
+        input.focus();
+
+        // Events
+        input.addEventListener('keydown', handleKeyDown);
+        input.addEventListener('input', handleInput);
+        document.addEventListener('click', (e) => {
+            if (e.target !== input && e.target !== dropdown) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // Handle Key Press
+        function handleKeyDown(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const command = input.value.trim().toLowerCase();
+                if (command) {
+                    executeCommand(command);
+                }
+                input.value = '';
+                dropdown.classList.remove('show');
+            } else if (e.key === 'Tab') {
+                e.preventDefault();
+                const selected = dropdown.querySelector('.autocomplete-item.selected');
+                if (selected) {
+                    input.value = selected.textContent;
+                    dropdown.classList.remove('show');
+                }
+            }
+        }
+
+        // Handle Input
+        function handleInput(e) {
+            const value = e.target.value.toLowerCase();
+            const matches = Object.keys(commands).filter(cmd =>
+                cmd.startsWith(value) && value.length > 0
+            );
+
+            if (matches.length > 0) {
+                dropdown.innerHTML = matches.map(cmd =>
+                    `<div class="autocomplete-item">${cmd}</div>`
+                ).join('');
+                dropdown.classList.add('show');
+
+                document.querySelectorAll('.autocomplete-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        input.value = item.textContent;
+                        dropdown.classList.remove('show');
+                    });
+                });
+            } else {
+                dropdown.classList.remove('show');
+            }
+        }
+
+        // Execute Command
+        function executeCommand(command) {
+            // Display command
+            addLine(`<span class="terminal-prompt">$</span> ${command}`);
+
+            const cmd = commands[command.toLowerCase()];
+            if (cmd) {
+                cmd.execute();
+            } else {
+                addLine(`<span class="terminal-text">command not found: ${command}</span>`);
+            }
+        }
+
+        // Display Functions
+        function displayWhoami() {
+            addLine('<span class="terminal-text success">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>');
+            addLine('<span class="profile-label">👤 Profile Information</span>');
+            addLine('<span class="terminal-text success">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>');
+            addLine('');
+            addLine('<span class="profile-label">Name:</span> <span class="terminal-text">kei</span>');
+            addLine('<span class="profile-label">Title:</span> <span class="terminal-text primary">Full Stack Engineer</span>');
+            addLine('<span class="profile-label">Speciality:</span> <span class="terminal-text">Web Development, Cloud Architecture</span>');
+            addLine('');
+            addLine('<span class="profile-label">Bio:</span>');
+            addLine('<span class="terminal-text">Passionate about building scalable, maintainable applications</span>');
+            addLine('<span class="terminal-text">with modern technologies and best practices.</span>');
+            addLine('');
+            addLine('<span class="profile-label">Location:</span> <span class="terminal-text">Japan</span>');
+            addLine('');
+        }
+
+        function displaySkills() {
+            addLine('<span class="terminal-text success">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>');
+            addLine('<span class="profile-label">🛠️  Technical Skills</span>');
+            addLine('<span class="terminal-text success">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>');
+            addLine('');
+            addLine('<span class="profile-label">Frontend:</span>');
+            addLine('<span class="terminal-text"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Next.js</span><span class="tag">Tailwind CSS</span><span class="tag">Framer Motion</span></span>');
+            addLine('');
+            addLine('<span class="profile-label">Backend:</span>');
+            addLine('<span class="terminal-text"><span class="tag">Node.js</span><span class="tag">Python</span><span class="tag">Express</span><span class="tag">Django</span></span>');
+            addLine('');
+            addLine('<span class="profile-label">DevOps & Tools:</span>');
+            addLine('<span class="terminal-text"><span class="tag">Docker</span><span class="tag">AWS</span><span class="tag">Git</span><span class="tag">CI/CD</span><span class="tag">PostgreSQL</span></span>');
+            addLine('');
+        }
+
+        function displayProjects() {
+            addLine('<span class="terminal-text success">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>');
+            addLine('<span class="profile-label">📁 Projects</span>');
+            addLine('<span class="terminal-text success">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>');
+            addLine('');
+            addLine('<span class="profile-label">BOTANICAL BREW</span> <span class="terminal-text link">[/sampl_app]</span>');
+            addLine('<span class="terminal-text">A modern web application showcasing React & Next.js expertise</span>');
+            addLine('<span class="terminal-text">Tech: React, TypeScript, Tailwind CSS, Next.js</span>');
+            addLine('');
+            addLine('<span class="profile-label">KEI-bot</span> <span class="terminal-text link">[/chatbot]</span>');
+            addLine('<span class="terminal-text">AI-powered chatbot with natural language processing</span>');
+            addLine('<span class="terminal-text">Tech: Python, Node.js, Docker, AWS</span>');
+            addLine('');
+        }
+
+        function displayGithub() {
+            addLine('<span class="terminal-text success">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>');
+            addLine('<span class="profile-label">🔗 GitHub</span>');
+            addLine('<span class="terminal-text success">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>');
+            addLine('');
+            addLine('<span class="terminal-text">Opening GitHub profile...</span>');
+            addLine('<span class="terminal-text link">https://github.com/yourusername</span>');
+            addLine('');
+            addLine('<span class="terminal-text">Press Ctrl+Click to open in browser</span>');
+            addLine('');
+        }
+
+        function displayHelp() {
+            addLine('<span class="terminal-text success">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>');
+            addLine('<span class="profile-label">? Available Commands</span>');
+            addLine('<span class="terminal-text success">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>');
+            addLine('');
+
+            const table = `
+                <table class="help-table">
+                    <tr><td>whoami</td><td>Display profile information</td></tr>
+                    <tr><td>skills</td><td>Display technical skills</td></tr>
+                    <tr><td>projects</td><td>Display projects</td></tr>
+                    <tr><td>github</td><td>Open GitHub profile</td></tr>
+                    <tr><td>help</td><td>Show this help message</td></tr>
+                    <tr><td>clear</td><td>Clear the terminal</td></tr>
+                </table>
+            `;
+
+            const line = document.createElement('div');
+            line.className = 'terminal-line';
+            line.innerHTML = table;
+            output.appendChild(line);
+
+            addLine('');
+            addLine('<span class="terminal-text">Tip: Start typing a command for autocomplete suggestions</span>');
+            addLine('');
+        }
+
+        function clearTerminal() {
+            output.innerHTML = '';
+            addLine('<span class="terminal-text success">$</span> <span class="terminal-text">Terminal cleared</span>');
+            addLine('');
+        }
+
+        // Utility Functions
+        function addLine(htmlContent) {
+            const line = document.createElement('div');
+            line.className = 'terminal-line';
+            line.innerHTML = htmlContent;
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        // Welcome Message
+        setTimeout(() => {
+            addLine('');
+            addLine('<span class="terminal-text primary">Try typing:</span> <span class="terminal-text">help</span>');
+        }, 500);
+    </script>
+</body>
+</html>
