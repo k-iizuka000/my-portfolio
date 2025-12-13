@@ -91,7 +91,6 @@ export default function OutputBlock({ output, index, canStart = true, onComplete
                 href={link.href}
                 target={link.external ? "_blank" : undefined}
                 rel={link.external ? "noopener noreferrer" : undefined}
-                className="text-phosphor hover:text-phosphorDim underline transition-colors"
               >
                 {link.label}
                 {link.external && " ↗"}

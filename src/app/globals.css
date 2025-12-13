@@ -7,10 +7,10 @@
 
 @layer base {
   :root {
-    --terminal-bg: #020617;
+    --terminal-bg: #0f1f1a;
     --phosphor-green: #4ade80;
     --phosphor-green-dim: rgba(74, 222, 128, 0.65);
-    --crt-glow: 0 0 12px rgba(74, 222, 128, 0.45);
+    --crt-glow: 0 0 10px rgba(74, 222, 128, 0.6);
     --font-jetbrains-mono: 'JetBrains Mono', monospace;
   }
 
@@ -48,6 +48,33 @@
 }
 
 @layer components {
+  /* ターミナル内リンクのスタイル */
+  /* ターミナル内（.crt）だけは、mock同様に青リンク化/hover変化を抑止する */
+  .crt a {
+    color: inherit;
+    text-shadow: inherit;
+    text-decoration: none;
+    cursor: default;
+    transition: none;
+  }
+
+  .crt a:hover {
+    color: inherit;
+  }
+
+  /* placeholder色 */
+  .crt input::placeholder {
+    color: #4b5563;
+    opacity: 1;
+  }
+
+  /* ヒントテキスト用クラス */
+  .hint-text {
+    color: #6b7280;
+    font-size: 12px;
+    opacity: 0.7;
+  }
+
   /* Terminal CRT Effects */
   .crt {
     color: var(--phosphor-green);
@@ -76,8 +103,8 @@
 
   .terminal-glow {
     box-shadow:
-      inset 0 0 60px rgba(74, 222, 128, 0.1),
-      0 0 30px rgba(74, 222, 128, 0.15);
+      0 0 15px rgba(74, 222, 128, 0.3),
+      inset 0 0 15px rgba(74, 222, 128, 0.1);
   }
 
   .terminal-text-glow {
