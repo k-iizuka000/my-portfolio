@@ -26,7 +26,7 @@ export default function TypewriterText({
     const controls = animate(count, text.length, {
       type: "tween",
       duration,
-      ease: "linear",
+      ease: "linear" as const,
       onComplete: () => {
         setIsComplete(true);
         onComplete?.();

@@ -68,7 +68,7 @@ export default function BotanicalBrewTop() {
             fillOpacity="0.3"
             initial={{ d: "M 0,400 C 0,400 0,200 0,200 C 114.5,233.5 229,267 354,267 C 479,267 614.5,233.5 737,233 C 859.5,232.5 969,265 1097,265 C 1225,265 1371.5,232.5 1440,200 L 1440,800 L 0,800 Z" }}
             animate={{ d: "M 0,400 C 0,400 0,250 0,250 C 130,280 260,310 380,305 C 500,300 610,260 740,250 C 870,240 1010,260 1140,270 C 1270,280 1400,280 1440,250 L 1440,800 L 0,800 Z" }}
-            transition={{ duration: 8, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+            transition={{ duration: 8, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" as const }}
           />
           <motion.path
             d="M 0,600 C 0,600 0,400 0,400 C 120,430 240,460 370,450 C 500,440 640,390 770,380 C 900,370 1020,400 1150,410 C 1280,420 1420,410 1440,400 L 1440,800 L 0,800 Z"
@@ -76,7 +76,7 @@ export default function BotanicalBrewTop() {
             fillOpacity="0.2"
             initial={{ d: "M 0,600 C 0,600 0,400 0,400 C 120,430 240,460 370,450 C 500,440 640,390 770,380 C 900,370 1020,400 1150,410 C 1280,420 1420,410 1440,400 L 1440,800 L 0,800 Z" }}
             animate={{ d: "M 0,600 C 0,600 0,450 0,450 C 140,470 280,490 400,485 C 520,480 620,450 750,445 C 880,440 1000,460 1130,465 C 1260,470 1400,460 1440,450 L 1440,800 L 0,800 Z" }}
-            transition={{ duration: 10, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+            transition={{ duration: 10, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" as const }}
           />
         </svg>
 
@@ -85,7 +85,7 @@ export default function BotanicalBrewTop() {
           className="relative z-10 text-center max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          transition={{ duration: 1, ease: "easeOut" as const }}
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
