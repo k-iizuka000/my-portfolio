@@ -2,9 +2,9 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package.json ./
+COPY package.json package-lock.json ./
 
-RUN npm install --legacy-peer-deps && npm audit fix || true
+RUN npm ci --legacy-peer-deps
 
 EXPOSE 3030
 
