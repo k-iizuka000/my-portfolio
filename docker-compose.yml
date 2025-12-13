@@ -1,0 +1,28 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my-portfolio-dev
+    ports:
+      - "3030:3030"
+    volumes:
+      - ./src:/app/src:cached
+      - ./public:/app/public:cached
+      - ./next.config.js:/app/next.config.js:cached
+      - ./tailwind.config.ts:/app/tailwind.config.ts:cached
+      - ./postcss.config.mjs:/app/postcss.config.mjs:cached
+      - ./tsconfig.json:/app/tsconfig.json:cached
+      - ./out:/app/out
+      - node_modules:/app/node_modules
+      - next_cache:/app/.next
+    environment:
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+    init: true
+
+volumes:
+  node_modules:
+    name: my-portfolio-node-modules
+  next_cache:
+    name: my-portfolio-next-cache

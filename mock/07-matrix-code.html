@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kei - Engineer Portfolio | Matrix Code</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            font-family: 'Courier New', monospace;
+            overflow-x: hidden;
+        }
+
+        /* Canvas Background */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            display: block;
+        }
+
+        /* Content Container */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            text-align: center;
+            max-width: 800px;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            padding: 60px 40px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            animation: pulse-border 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-border {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(0, 255, 0, 0.6); }
+        }
+
+        /* Name - Matrix Green */
+        .name {
+            font-size: 48px;
+            font-weight: bold;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00, 0 0 20px #00aa00;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            animation: glow-text 2s ease-in-out infinite;
+        }
+
+        @keyframes glow-text {
+            0%, 100% { text-shadow: 0 0 10px #00ff00, 0 0 20px #00aa00; }
+            50% { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00; }
+        }
+
+        /* Title */
+        .title {
+            font-size: 18px;
+            color: #00dd00;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            letter-spacing: 1px;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #00ff00, transparent);
+            margin: 30px 0;
+            opacity: 0.6;
+        }
+
+        /* Skills Section */
+        .skills-section {
+            text-align: left;
+            margin: 40px 0;
+        }
+
+        .skills-label {
+            color: #00ff00;
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+        }
+
+        .skill-tag {
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .skill-tag:hover {
+            background-color: rgba(0, 255, 0, 0.3);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* Projects Section */
+        .projects-section {
+            margin: 40px 0;
+        }
+
+        .projects-label {
+            color: #00ff00;
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .project-link {
+            background-color: rgba(0, 255, 0, 0.05);
+            border: 1px solid #00ff00;
+            padding: 15px;
+            border-radius: 4px;
+            color: #00ff00;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            line-height: 1.6;
+            display: block;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .project-link:hover {
+            background-color: rgba(0, 255, 0, 0.15);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .project-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .project-desc {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        /* GitHub Link */
+        .github-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0, 255, 0, 0.3);
+        }
+
+        .github-link {
+            display: inline-block;
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            padding: 12px 24px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .github-link:hover {
+            background-color: #00ff00;
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+            transform: scale(1.05);
+        }
+
+        /* Code String Animation */
+        .code-string {
+            color: #00aa00;
+            font-size: 12px;
+            opacity: 0.6;
+            margin-top: 20px;
+            line-height: 1.4;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .name {
+                font-size: 32px;
+            }
+
+            .main-content {
+                padding: 40px 25px;
+            }
+
+            .skills-grid,
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Canvas for Matrix Code Rain -->
+    <canvas id="matrixCanvas"></canvas>
+
+    <!-- Content -->
+    <div class="content-wrapper">
+        <div class="main-content">
+            <!-- Header -->
+            <div class="name">kei</div>
+            <div class="title">Software Engineer | Full Stack Developer</div>
+
+            <div class="divider"></div>
+
+            <!-- Skills Section -->
+            <div class="skills-section">
+                <div class="skills-label">> Skills</div>
+                <div class="skills-grid">
+                    <div class="skill-tag">JavaScript</div>
+                    <div class="skill-tag">TypeScript</div>
+                    <div class="skill-tag">React</div>
+                    <div class="skill-tag">Next.js</div>
+                    <div class="skill-tag">Vue.js</div>
+                    <div class="skill-tag">Python</div>
+                    <div class="skill-tag">Java</div>
+                    <div class="skill-tag">Node.js</div>
+                    <div class="skill-tag">AWS</div>
+                    <div class="skill-tag">Docker</div>
+                    <div class="skill-tag">PostgreSQL</div>
+                    <div class="skill-tag">Git</div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Projects Section -->
+            <div class="projects-section">
+                <div class="projects-label">> Projects</div>
+                <div class="projects-grid">
+                    <a href="#project1" class="project-link">
+                        <div class="project-title">Project Alpha</div>
+                        <div class="project-desc">Full-stack web application</div>
+                    </a>
+                    <a href="#project2" class="project-link">
+                        <div class="project-title">Project Beta</div>
+                        <div class="project-desc">Mobile-first SPA</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- GitHub Section -->
+            <div class="github-section">
+                <a href="https://github.com" class="github-link">→ GitHub</a>
+            </div>
+
+            <!-- Code String -->
+            <div class="code-string">
+                &gt; const engineer = { skills: ['design', 'code', 'debug'], passion: 100 };<br>
+                &gt; engineer.build();
+            </div>
+        </div>
+    </div>
+
+    <!-- Matrix Canvas Script -->
+    <script>
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Canvas size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Matrix characters
+        const characters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+        const fontSize = 16;
+        const columns = Math.floor(canvas.width / fontSize);
+
+        // Initialize drops
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = {
+                y: Math.random() * canvas.height,
+                speed: Math.random() * 2 + 1,
+                char: characters[Math.floor(Math.random() * characters.length)]
+            };
+        }
+
+        // Draw function
+        function draw() {
+            // Clear with semi-transparent black
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw characters
+            ctx.font = fontSize + 'px "Courier New"';
+            ctx.fillStyle = '#00ff00';
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#00ff00';
+
+            for (let i = 0; i < drops.length; i++) {
+                const drop = drops[i];
+
+                // Random opacity for depth
+                ctx.globalAlpha = Math.random() * 0.8 + 0.2;
+
+                ctx.fillText(drop.char, i * fontSize, drop.y);
+
+                // Update drop position
+                drop.y += drop.speed;
+
+                // Reset if out of bounds
+                if (drop.y > canvas.height) {
+                    drop.y = -fontSize;
+                    drop.speed = Math.random() * 2 + 1;
+                    drop.char = characters[Math.floor(Math.random() * characters.length)];
+                }
+
+                // Random char change
+                if (Math.random() > 0.98) {
+                    drop.char = characters[Math.floor(Math.random() * characters.length)];
+                }
+            }
+
+            ctx.globalAlpha = 1;
+            ctx.shadowBlur = 0;
+        }
+
+        // Animation loop
+        function animate() {
+            draw();
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Add hover effect on skill tags
+        document.querySelectorAll('.skill-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                this.style.animation = 'none';
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 10);
+            });
+        });
+    </script>
+</body>
+</html>

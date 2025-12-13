@@ -1,5 +1,5 @@
-import PortfolioWebsite from '../components/PortfolioWebsite';
+import TerminalApp from "@/components/terminal/TerminalApp";
 
 export default function Home() {
-  return <PortfolioWebsite />;
+  return <TerminalApp />;
 }

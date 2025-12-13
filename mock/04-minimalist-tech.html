@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kei - Full Stack Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #fafafa;
+            color: #1a1a1a;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        }
+
+        .grid-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(0deg, rgba(200,200,200,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200,200,200,0.1) 1px, transparent 1px);
+            background-size: 64px 64px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .hero-name {
+            font-size: clamp(5rem, 20vw, 12rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            line-height: 1;
+        }
+
+        .accent-color {
+            color: #0066cc;
+        }
+
+        .skill-item {
+            padding: 0.75rem 0;
+            font-size: 1.125rem;
+            letter-spacing: -0.01em;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .skill-category {
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #666;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .link-item {
+            display: inline-block;
+            padding: 0.75rem 0;
+            font-weight: 500;
+            text-decoration: none;
+            color: #1a1a1a;
+            border-bottom: 2px solid #0066cc;
+            transition: all 0.2s ease;
+        }
+
+        .link-item:hover {
+            color: #0066cc;
+            padding-left: 0.5rem;
+        }
+
+        .divider {
+            width: 32px;
+            height: 2px;
+            background-color: #0066cc;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero-name {
+                font-size: clamp(3rem, 15vw, 6rem);
+            }
+
+            .skill-item {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-line"></div>
+
+    <!-- Header / Hero Section -->
+    <header class="px-8 lg:px-20 py-16 lg:py-32 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-start">
+            <!-- Left Column: Name & Title -->
+            <div>
+                <h1 class="hero-name">
+                    kei
+                </h1>
+                <p class="text-xl lg:text-2xl text-gray-500 mt-6 leading-relaxed">
+                    Full Stack Engineer
+                </p>
+                <div class="divider"></div>
+                <p class="text-lg text-gray-600 leading-relaxed max-w-md">
+                    Designing and building digital experiences with clean code and thoughtful design.
+                </p>
+            </div>
+
+            <!-- Right Column: Quick Info -->
+            <div class="lg:pt-6">
+                <div class="skill-category">About</div>
+                <p class="text-base lg:text-lg text-gray-700 leading-relaxed mb-8">
+                    10+ years of experience in full-stack development. Specialized in modern JavaScript ecosystems, scalable backend architectures, and performant frontend applications.
+                </p>
+
+                <div class="skill-category">Location</div>
+                <p class="text-lg text-gray-700 mb-8">Tokyo, Japan</p>
+
+                <div class="skill-category">Available For</div>
+                <p class="text-lg text-gray-700">Remote projects & collaborations</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Skills Section -->
+    <section class="px-8 lg:px-20 py-20 lg:py-32 max-w-7xl mx-auto">
+        <h2 class="text-3xl lg:text-4xl font-bold mb-16">Skills</h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+            <!-- Frontend -->
+            <div>
+                <div class="skill-category">Frontend</div>
+                <div class="skill-item">React / Next.js</div>
+                <div class="skill-item">TypeScript</div>
+                <div class="skill-item">Tailwind CSS</div>
+                <div class="skill-item">Vue.js</div>
+                <div class="skill-item">HTML / CSS</div>
+                <div class="skill-item">Framer Motion</div>
+            </div>
+
+            <!-- Backend -->
+            <div>
+                <div class="skill-category">Backend</div>
+                <div class="skill-item">Node.js / Express</div>
+                <div class="skill-item">Java / Spring Boot</div>
+                <div class="skill-item">Python</div>
+                <div class="skill-item">PostgreSQL</div>
+                <div class="skill-item">MongoDB</div>
+                <div class="skill-item">REST API Design</div>
+            </div>
+
+            <!-- Tools & DevOps -->
+            <div>
+                <div class="skill-category">Tools & DevOps</div>
+                <div class="skill-item">Docker</div>
+                <div class="skill-item">Git / GitHub</div>
+                <div class="skill-item">AWS</div>
+                <div class="skill-item">CI/CD Pipelines</div>
+                <div class="skill-item">GraphQL</div>
+                <div class="skill-item">Figma</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="px-8 lg:px-20 py-20 lg:py-32 max-w-7xl mx-auto">
+        <h2 class="text-3xl lg:text-4xl font-bold mb-16">Featured Projects</h2>
+
+        <div class="space-y-12">
+            <!-- Project 1 -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 pb-12 border-b border-gray-300">
+                <div class="lg:col-span-2">
+                    <h3 class="text-2xl font-bold mb-4">Project Alpha</h3>
+                    <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                        Real-time collaboration platform built with Next.js, WebSocket, and PostgreSQL. Supports 10k+ concurrent users with <span class="accent-color">sub-100ms latency</span>.
+                    </p>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <p>React · Next.js · TypeScript · PostgreSQL · Redis · Docker</p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-end">
+                    <a href="#" class="link-item">View Project →</a>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <div class="lg:col-span-2">
+                    <h3 class="text-2xl font-bold mb-4">Project Beta</h3>
+                    <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                        E-commerce platform with microservices architecture. Handles 50k+ monthly transactions with <span class="accent-color">99.99% uptime</span>.
+                    </p>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <p>Java · Spring Boot · AWS · Docker · PostgreSQL · React</p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-end">
+                    <a href="#" class="link-item">View Project →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="px-8 lg:px-20 py-20 lg:py-32 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div>
+                <h2 class="text-3xl lg:text-4xl font-bold mb-12">Get In Touch</h2>
+                <p class="text-lg text-gray-700 leading-relaxed mb-8">
+                    Open to exciting projects, collaborations, and technical discussions.
+                </p>
+            </div>
+
+            <div>
+                <div class="space-y-6">
+                    <div>
+                        <div class="skill-category">Email</div>
+                        <a href="mailto:contact@example.com" class="link-item">hello@kei.dev</a>
+                    </div>
+                    <div>
+                        <div class="skill-category">Social</div>
+                        <div class="space-y-3">
+                            <a href="https://github.com" target="_blank" class="link-item block">GitHub</a>
+                            <a href="https://twitter.com" target="_blank" class="link-item block">Twitter / X</a>
+                            <a href="https://linkedin.com" target="_blank" class="link-item block">LinkedIn</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="px-8 lg:px-20 py-16 border-t border-gray-300">
+        <div class="max-w-7xl mx-auto">
+            <p class="text-center text-sm text-gray-500">
+                © 2025 kei. All rights reserved.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

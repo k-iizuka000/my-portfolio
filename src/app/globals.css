@@ -1,18 +1,29 @@
+@import url('https://unpkg.com/nes.css@latest/css/nes.min.css');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --terminal-bg: #0f1f1a;
+    --phosphor-green: #4ade80;
+    --phosphor-green-dim: rgba(74, 222, 128, 0.65);
+    --crt-glow: 0 0 10px rgba(74, 222, 128, 0.6);
+    --font-jetbrains-mono: 'JetBrains Mono', monospace;
+  }
+
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #0f172a;
+    background: radial-gradient(ellipse at center, #02110a 0%, #000 65%);
     color: #ffffff;
   }
   
@@ -37,49 +48,126 @@
 }
 
 @layer components {
+  /* ターミナル内リンクのスタイル */
+  /* ターミナル内（.crt）だけは、mock同様に青リンク化/hover変化を抑止する */
+  .crt a {
+    color: inherit;
+    text-shadow: inherit;
+    text-decoration: none;
+    cursor: default;
+    transition: none;
+  }
+
+  .crt a:hover {
+    color: inherit;
+  }
+
+  /* placeholder色 */
+  .crt input::placeholder {
+    color: #4b5563;
+    opacity: 1;
+  }
+
+  /* ヒントテキスト用クラス */
+  .hint-text {
+    color: #6b7280;
+    font-size: 12px;
+    opacity: 0.7;
+  }
+
+  /* Terminal CRT Effects */
+  .crt {
+    color: var(--phosphor-green);
+    text-shadow: var(--crt-glow);
+  }
+
+  /* Text glow effect (mock compatible) */
+  .text-glow {
+    text-shadow:
+      0 0 5px rgba(74, 222, 128, 0.8),
+      0 0 15px rgba(74, 222, 128, 0.5),
+      0 0 30px rgba(74, 222, 128, 0.3);
+  }
+
+  /* CRT container glow effect (mock compatible) */
+  .crt-glow {
+    box-shadow: 0 0 15px rgba(74, 222, 128, 0.3), inset 0 0 15px rgba(74, 222, 128, 0.1);
+  }
+
+  .scanlines {
+    position: relative;
+  }
+
+  .scanlines::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.03),
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.06) 4px
+    );
+    mix-blend-mode: overlay;
+    animation: scanline 6s linear infinite;
+    z-index: 1;
+  }
+
+  .terminal-glow {
+    box-shadow:
+      0 0 15px rgba(74, 222, 128, 0.3),
+      inset 0 0 15px rgba(74, 222, 128, 0.1);
+  }
+
+  .terminal-text-glow {
+    text-shadow:
+      0 0 8px rgba(74, 222, 128, 0.8),
+      0 0 16px rgba(74, 222, 128, 0.4);
+  }
+
+  /* Existing styles preserved */
   .glass-effect {
     @apply bg-white/5 backdrop-blur-lg border border-white/10;
   }
-  
+
   .gradient-text {
     @apply bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent;
   }
-  
+
   .card-hover {
     @apply transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl;
   }
-  
+
   .btn-primary {
     @apply px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg font-medium transition-all hover:from-blue-700 hover:to-purple-700 transform hover:scale-105;
   }
-  
+
   .btn-secondary {
     @apply px-6 py-3 border border-slate-600 rounded-lg font-medium hover:border-blue-400 hover:text-blue-400 transition-all transform hover:scale-105;
   }
-  
+
   .section-padding {
     @apply py-20 px-6;
   }
-  
+
   .container-max {
     @apply max-w-7xl mx-auto;
   }
-  
+
   .line-clamp-3 {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
+
   .line-clamp-4 {
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-
-
 }
 
 @layer utilities {
@@ -102,6 +190,15 @@
 }
 
 /* Custom animations */
+@keyframes scanline {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100%;
+  }
+}
+
 @keyframes float {
   0%, 100% {
     transform: translateY(0px);

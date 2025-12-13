@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kei - Terminal Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            background-color: #0a1612;
+            color: #4ade80;
+            overflow-x: hidden;
+        }
+
+        /* スキャンライン効果（控えめ） */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.05),
+                rgba(0, 0, 0, 0.05) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        /* ターミナルコンテナ */
+        .terminal {
+            background-color: #0f1f1a;
+            border: 2px solid #4ade80;
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(74, 222, 128, 0.2), inset 0 0 20px rgba(74, 222, 128, 0.05);
+            font-size: 14px;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            max-height: 80vh;
+        }
+
+        /* グロー効果 */
+        .text-glow {
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.6);
+        }
+
+        /* CRTグロー */
+        .crt-glow {
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.3), inset 0 0 15px rgba(74, 222, 128, 0.1);
+        }
+
+        /* 出力テキストアニメーション */
+        @keyframes typewriter {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        .typing {
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typewriter 0.5s steps(40, end) forwards;
+        }
+
+        /* コマンドプロンプト */
+        .prompt {
+            color: #86efac;
+            font-weight: 600;
+        }
+
+        /* オートコンプリート */
+        .autocomplete-dropdown {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            right: 0;
+            background-color: #0f1f1a;
+            border: 1px solid #4ade80;
+            border-bottom: none;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            margin-bottom: 2px;
+            box-shadow: 0 -2px 20px rgba(74, 222, 128, 0.1);
+        }
+
+        .autocomplete-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #1f3a2a;
+            transition: background-color 0.2s;
+        }
+
+        .autocomplete-item:hover,
+        .autocomplete-item.selected {
+            background-color: #1f3a2a;
+            color: #4ade80;
+        }
+
+        .autocomplete-item.selected {
+            text-shadow: 0 0 8px rgba(74, 222, 128, 0.8);
+        }
+
+        /* 入力フィールド */
+        .input-field {
+            background-color: transparent;
+            border: none;
+            color: #4ade80;
+            outline: none;
+            width: 100%;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            caret-color: #4ade80;
+        }
+
+        .input-field::placeholder {
+            color: #4b5563;
+        }
+
+        /* 出力セクション */
+        .output-section {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #1f3a2a;
+            flex-shrink: 0;
+        }
+
+        .output-section:last-child {
+            border-bottom: none;
+        }
+
+        /* ターミナル内部のレイアウト */
+        .terminal > div:first-child {
+            flex-shrink: 0;
+        }
+
+        #terminal-output {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        #terminal-output::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #terminal-output::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #terminal-output::-webkit-scrollbar-thumb {
+            background: #4ade80;
+            border-radius: 3px;
+            opacity: 0.5;
+        }
+
+        #terminal-output::-webkit-scrollbar-thumb:hover {
+            opacity: 0.8;
+        }
+
+        /* 入力エリア */
+        .input-area {
+            flex-shrink: 0;
+            border-top: 1px solid #1f3a2a;
+            padding-top: 12px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* キーボード指示 */
+        .hint-text {
+            color: #6b7280;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 640px) {
+            .terminal {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 min-h-screen flex items-center justify-center">
+    <!-- スキャンライン -->
+    <div class="scanlines"></div>
+
+    <div class="w-full max-w-4xl">
+        <!-- ターミナルヘッダー -->
+        <div class="terminal p-6 crt-glow">
+            <!-- ウィンドウタイトルバー -->
+            <div class="flex items-center gap-2 mb-4 pb-4 border-b border-gray-700">
+                <div class="flex gap-2">
+                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <span class="text-gray-500 text-xs ml-2">kei@portfolio ~ %</span>
+            </div>
+
+            <!-- ウェルカムメッセージ -->
+            <div class="mb-6">
+                <div class="text-glow text-xl mb-2">
+                    <span class="prompt">$</span> whoami
+                </div>
+                <div class="typing animation-delay-0">
+                    <div class="ml-4 text-green-300">Kei - Full Stack Engineer</div>
+                </div>
+            </div>
+
+            <!-- ターミナル出力エリア -->
+            <div id="terminal-output">
+                <!-- 動的に出力が追加される -->
+            </div>
+
+            <!-- 入力エリア（相対位置） -->
+            <div class="input-area">
+                <div class="relative">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="prompt">$</span>
+                        <input
+                            id="command-input"
+                            type="text"
+                            class="input-field"
+                            placeholder="コマンドを入力... (help でコマンド一覧)"
+                            autocomplete="off"
+                        />
+                    </div>
+
+                    <!-- オートコンプリートドロップダウン -->
+                    <div id="autocomplete-dropdown" class="autocomplete-dropdown hidden"></div>
+                </div>
+
+                <!-- ヘルプ情報 -->
+                <div class="text-hint-text">
+                    <span class="hint-text">💡 試してみるコマンド: whoami, skills, projects, github, help</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // コマンドデータ
+        const commands = {
+            whoami: {
+                title: 'whoami',
+                output: [
+                    'Kei',
+                    'Full Stack Engineer',
+                    'Tokyo, Japan',
+                    '',
+                    '職務経歴: 10+ years in Web Development'
+                ]
+            },
+            skills: {
+                title: 'skills',
+                output: [
+                    '▸ Frontend: React, TypeScript, Vue.js, JavaScript, HTML/CSS',
+                    '▸ Backend: Node.js, Python, Java, Spring Boot',
+                    '▸ Tools & Infra: Docker, AWS, Git, GitHub Actions',
+                    '▸ Databases: PostgreSQL, MySQL, MongoDB',
+                    '▸ Others: GraphQL, REST API, Microservices'
+                ]
+            },
+            projects: {
+                title: 'projects',
+                output: [
+                    '[1] BOTANICAL BREW - 植物栽培管理アプリケーション',
+                    '    └─ /sampl_app',
+                    '    └─ Stack: Next.js, React, TypeScript, Tailwind CSS',
+                    '',
+                    '[2] KEI-bot - AI チャットボット',
+                    '    └─ /chatbot',
+                    '    └─ Stack: Node.js, Python, FastAPI, WebSocket'
+                ]
+            },
+            github: {
+                title: 'github',
+                output: [
+                    'GitHub Profile: https://github.com',
+                    'Repository: https://github.com',
+                    '',
+                    '📌 Recent Projects:',
+                    '  ▸ my-portfolio (This project)',
+                    '  ▸ BOTANICAL BREW',
+                    '  ▸ KEI-bot'
+                ]
+            },
+            help: {
+                title: 'help',
+                output: [
+                    '利用可能なコマンド:',
+                    '',
+                    '  whoami      - プロフィール表示',
+                    '  skills      - スキル一覧表示',
+                    '  projects    - プロジェクト一覧表示',
+                    '  github      - GitHubリンク表示',
+                    '  help        - このメッセージ',
+                    '  clear       - 画面をクリア'
+                ]
+            },
+            clear: {
+                title: 'clear',
+                output: [] // 出力なし
+            }
+        };
+
+        // DOM要素
+        const commandInput = document.getElementById('command-input');
+        const terminalOutput = document.getElementById('terminal-output');
+        const autocompleteDropdown = document.getElementById('autocomplete-dropdown');
+
+        // コマンド実行履歴
+        let commandHistory = [];
+        let historyIndex = -1;
+
+        // オートコンプリート候補を取得
+        function getAutocomplete(input) {
+            const trimmed = input.trim().toLowerCase();
+            if (!trimmed) return [];
+
+            return Object.keys(commands).filter(cmd =>
+                cmd.startsWith(trimmed)
+            );
+        }
+
+        // オートコンプリートドロップダウンを表示
+        function showAutocomplete(suggestions) {
+            if (suggestions.length === 0) {
+                autocompleteDropdown.classList.add('hidden');
+                return;
+            }
+
+            autocompleteDropdown.innerHTML = suggestions.map((cmd, idx) => `
+                <div class="autocomplete-item ${idx === 0 ? 'selected' : ''}" data-cmd="${cmd}">
+                    ${cmd}
+                </div>
+            `).join('');
+
+            autocompleteDropdown.classList.remove('hidden');
+
+            // アイテムクリックハンドラ
+            document.querySelectorAll('.autocomplete-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    commandInput.value = item.dataset.cmd + ' ';
+                    commandInput.focus();
+                    autocompleteDropdown.classList.add('hidden');
+                });
+            });
+        }
+
+        // 入力時のオートコンプリート
+        commandInput.addEventListener('input', (e) => {
+            const input = e.target.value;
+            const suggestions = getAutocomplete(input);
+            showAutocomplete(suggestions);
+        });
+
+        // Tab キーでの補完
+        commandInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const input = e.target.value.trim().toLowerCase();
+                const suggestions = getAutocomplete(input);
+
+                if (suggestions.length > 0) {
+                    commandInput.value = suggestions[0] + ' ';
+                    showAutocomplete([]);
+                }
+            }
+
+            // 上下キーで履歴操作
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    commandInput.value = commandHistory[historyIndex];
+                }
+            }
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    commandInput.value = commandHistory[historyIndex];
+                } else if (historyIndex === 0) {
+                    historyIndex = -1;
+                    commandInput.value = '';
+                }
+            }
+        });
+
+        // Enterキーでコマンド実行
+        commandInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = commandInput.value.trim().toLowerCase();
+                executeCommand(cmd);
+                commandInput.value = '';
+                autocompleteDropdown.classList.add('hidden');
+            }
+        });
+
+        // コマンド実行
+        function executeCommand(cmd) {
+            // 履歴に追加
+            if (cmd) {
+                commandHistory.unshift(cmd);
+                historyIndex = -1;
+            }
+
+            // プロンプト表示
+            const promptLine = document.createElement('div');
+            promptLine.className = 'output-section';
+            promptLine.innerHTML = `
+                <div class="text-glow">
+                    <span class="prompt">$</span> ${cmd}
+                </div>
+            `;
+            terminalOutput.appendChild(promptLine);
+
+            // コマンド判定
+            if (!cmd) return;
+
+            const baseCmd = cmd.split(' ')[0];
+
+            if (baseCmd === 'clear') {
+                terminalOutput.innerHTML = '';
+                return;
+            }
+
+            if (commands[baseCmd]) {
+                const cmdData = commands[baseCmd];
+                const output = document.createElement('div');
+                output.className = 'ml-4';
+
+                cmdData.output.forEach((line, idx) => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'typing';
+                    lineDiv.style.animationDelay = `${idx * 0.05}s`;
+                    lineDiv.textContent = line;
+                    output.appendChild(lineDiv);
+                });
+
+                terminalOutput.appendChild(output);
+            } else {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'ml-4 text-red-400';
+                errorDiv.innerHTML = `<span class="typing">コマンドが見つかりません: ${cmd}</span>`;
+                terminalOutput.appendChild(errorDiv);
+            }
+
+            // スクロール最下部へ
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+
+        // 初期表示
+        window.addEventListener('load', () => {
+            commandInput.focus();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kei - Full Stack Engineer Terminal Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2a24 100%);
+            color: #FFB454;
+            overflow: hidden;
+        }
+
+        /* Terminal Container */
+        .terminal-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid #FFB454;
+            box-shadow:
+                0 0 20px rgba(255, 180, 84, 0.3),
+                inset 0 0 20px rgba(255, 180, 84, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            background: #0f0f0f;
+        }
+
+        /* Terminal Header */
+        .terminal-header {
+            background: linear-gradient(90deg, #2d2a24 0%, #1a1a1a 100%);
+            border-bottom: 2px solid #FFB454;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 50px;
+        }
+
+        .terminal-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #FFB454;
+            text-shadow: 0 0 10px rgba(255, 180, 84, 0.5);
+        }
+
+        .terminal-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .control-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid #FFB454;
+        }
+
+        .control-btn.close {
+            background: #ff6b6b;
+            border-color: #ff6b6b;
+        }
+
+        .control-btn.minimize {
+            background: #ffd93d;
+            border-color: #ffd93d;
+        }
+
+        .control-btn.maximize {
+            background: #6bcf7f;
+            border-color: #6bcf7f;
+        }
+
+        /* Terminal Output Area */
+        .terminal-output {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 16px;
+            background: #0f0f0f;
+            position: relative;
+        }
+
+        .terminal-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .terminal-output::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        .terminal-output::-webkit-scrollbar-thumb {
+            background: #FFB454;
+            border-radius: 4px;
+        }
+
+        .terminal-output::-webkit-scrollbar-thumb:hover {
+            background: #FFC875;
+        }
+
+        /* Command Line Styling */
+        .command-line {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            margin: 8px 0;
+            min-height: 24px;
+        }
+
+        .command-prompt {
+            color: #FFB454;
+            font-weight: 600;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .command-text {
+            color: #FFB454;
+            word-break: break-all;
+            flex: 1;
+        }
+
+        /* Output Styling */
+        .output-text {
+            color: #E0A060;
+            line-height: 1.6;
+            margin: 4px 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .output-section {
+            margin: 12px 0;
+            padding: 8px 0;
+            border-left: 2px solid #FFB454;
+            padding-left: 12px;
+        }
+
+        .output-section-title {
+            color: #FFB454;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .output-item {
+            color: #E0A060;
+            margin: 6px 0;
+            padding-left: 12px;
+        }
+
+        .output-item::before {
+            content: '▸ ';
+            color: #FFB454;
+            margin-right: 8px;
+        }
+
+        .link-text {
+            color: #FFD700;
+            text-decoration: none;
+            cursor: pointer;
+            border-bottom: 1px dotted #FFD700;
+        }
+
+        .link-text:hover {
+            color: #FFC875;
+            border-bottom-color: #FFC875;
+        }
+
+        /* Input Area */
+        .terminal-input-area {
+            border-top: 2px solid #FFB454;
+            padding: 12px 16px;
+            background: #1a1a1a;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            min-height: 50px;
+            position: relative;
+        }
+
+        .input-prompt {
+            color: #FFB454;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        #commandInput {
+            background: transparent;
+            border: none;
+            color: #FFB454;
+            outline: none;
+            width: 100%;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            padding: 0;
+            caret-color: #FFB454;
+        }
+
+        #commandInput::placeholder {
+            color: #664C2F;
+        }
+
+        /* Autocomplete Dropdown */
+        .autocomplete-dropdown {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            background: #2d2a24;
+            border: 1px solid #FFB454;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+            max-height: 150px;
+            overflow-y: auto;
+            z-index: 1000;
+            min-width: 200px;
+            display: none;
+            box-shadow: 0 -5px 15px rgba(255, 180, 84, 0.2);
+            margin-bottom: 4px;
+        }
+
+        .autocomplete-dropdown.show {
+            display: block;
+        }
+
+        .autocomplete-item {
+            padding: 8px 12px;
+            color: #FFB454;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1a1a1a;
+            font-size: 13px;
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .autocomplete-item:hover,
+        .autocomplete-item.selected {
+            background: #3d3a2f;
+            color: #FFC875;
+        }
+
+        .autocomplete-hint {
+            color: #664C2F;
+            font-size: 11px;
+        }
+
+        /* Cursor Blink */
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background: #FFB454;
+            margin-left: 4px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 49% {
+                opacity: 1;
+            }
+            50%, 100% {
+                opacity: 0;
+            }
+        }
+
+        /* Typing Animation */
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        .typing {
+            animation: typing 0.05s steps(40, end);
+        }
+
+        /* Glow Effect */
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255, 180, 84, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .terminal-container {
+                border-radius: 0;
+            }
+
+            #commandInput {
+                font-size: 12px;
+            }
+
+            .terminal-header {
+                padding: 10px 12px;
+            }
+
+            .terminal-output {
+                padding: 16px 12px;
+            }
+
+            .terminal-input-area {
+                padding: 10px 12px;
+            }
+        }
+
+        /* Help Text Style */
+        .help-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin: 8px 0;
+        }
+
+        .help-item {
+            background: #2d2a24;
+            padding: 8px;
+            border-left: 2px solid #FFB454;
+            border-radius: 2px;
+        }
+
+        .help-command {
+            color: #FFD700;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .help-description {
+            color: #E0A060;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-container">
+        <!-- Header -->
+        <div class="terminal-header">
+            <div class="terminal-title glow-text">kei@portfolio:~$</div>
+            <div class="terminal-controls">
+                <div class="control-btn minimize"></div>
+                <div class="control-btn maximize"></div>
+                <div class="control-btn close"></div>
+            </div>
+        </div>
+
+        <!-- Output Area -->
+        <div class="terminal-output" id="terminalOutput">
+            <div style="color: #FFB454; font-size: 12px; margin-bottom: 16px;">
+                ╔═══════════════════════════════════════════════════════╗<br>
+                ║          Welcome to kei's Portfolio Terminal          ║<br>
+                ║       Type 'help' to see available commands           ║<br>
+                ╚═══════════════════════════════════════════════════════╝
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="terminal-input-area">
+            <span class="input-prompt">$</span>
+            <div class="input-wrapper">
+                <input
+                    type="text"
+                    id="commandInput"
+                    placeholder="Enter command..."
+                    autocomplete="off"
+                >
+                <div class="autocomplete-dropdown" id="autocompleteDropdown">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Command Data
+        const commands = {
+            whoami: {
+                help: 'Show profile information',
+                execute: () => {
+                    return `
+┌─ Profile Information
+├─ Name:      kei
+├─ Title:     Full Stack Engineer
+├─ Location:  Tokyo, Japan
+├─ Focus:     Web Applications, Cloud Infrastructure
+└─ Email:     kei@portfolio.dev`;
+                }
+            },
+            skills: {
+                help: 'Display technical skills',
+                execute: () => {
+                    return `
+┌─ Frontend
+├─ React, TypeScript, Next.js
+├─ Tailwind CSS, Framer Motion
+└─ HTML, CSS, JavaScript
+
+┌─ Backend
+├─ Python, Node.js, Java
+├─ REST API, GraphQL
+└─ Database Design (SQL, NoSQL)
+
+┌─ DevOps & Cloud
+├─ Docker, Kubernetes
+├─ AWS (EC2, S3, RDS, Lambda)
+└─ CI/CD (GitHub Actions)
+
+┌─ Tools & Others
+├─ Git, GitHub, GitLab
+├─ VS Code, IntelliJ IDEA
+└─ Figma, Postman`;
+                }
+            },
+            projects: {
+                help: 'List portfolio projects',
+                execute: () => {
+                    return `
+┌─ BOTANICAL BREW
+├─ A plant care and community platform
+├─ Tech: Next.js, TypeScript, Tailwind CSS, Firebase
+├─ Link: /sampl_app
+└─ Status: Active Development
+
+┌─ KEI-bot
+├─ Intelligent chatbot with NLP capabilities
+├─ Tech: Node.js, Python, MongoDB, Socket.io
+├─ Link: /chatbot
+└─ Status: Maintenance & Enhancement
+
+┌─ My Portfolio Website
+├─ Modern portfolio with animations
+├─ Tech: Next.js 15, React 19, Framer Motion
+├─ Link: https://kei-portfolio.dev
+└─ Status: Live`;
+                }
+            },
+            github: {
+                help: 'Show GitHub profile link',
+                execute: () => {
+                    return `
+┌─ GitHub Profile
+├─ Profile:  https://github.com/kei-porfolio
+├─ Repos:    12 Public Repositories
+├─ Stars:    45 Total Stars
+└─ Contributions: Active (2000+ this year)
+
+Type 'open github' to visit the profile.`;
+                }
+            },
+            help: {
+                help: 'Display available commands',
+                execute: () => {
+                    return `
+┌─ Available Commands
+├─ whoami          Show profile information
+├─ skills          Display technical skills
+├─ projects        List portfolio projects
+├─ github          Show GitHub profile link
+├─ clear           Clear the terminal screen
+├─ help            Show this help message
+└─ open <link>     Open a link (try: open github)
+
+Usage: Type a command and press Enter`;
+                }
+            },
+            clear: {
+                help: 'Clear the terminal screen',
+                execute: null // Special handling
+            }
+        };
+
+        const availableCommands = Object.keys(commands);
+        let commandHistory = [];
+        let historyIndex = -1;
+        const output = document.getElementById('terminalOutput');
+        const input = document.getElementById('commandInput');
+        const autocompleteDropdown = document.getElementById('autocompleteDropdown');
+
+        // Initialize
+        function init() {
+            input.focus();
+            displayInitialHelp();
+        }
+
+        function displayInitialHelp() {
+            appendOutput('$ help', true);
+            const result = commands.help.execute();
+            appendOutput(result, false);
+        }
+
+        // Append output to terminal
+        function appendOutput(text, isCommand = false) {
+            const line = document.createElement('div');
+            if (isCommand) {
+                line.className = 'command-line';
+                line.innerHTML = `<span class="command-prompt">$</span><span class="command-text">${escapeHtml(text)}</span>`;
+            } else {
+                line.className = 'output-text';
+                line.textContent = text;
+            }
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        // Escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Get autocomplete suggestions
+        function getAutocompleteSuggestions(input) {
+            const normalized = input.toLowerCase().trim();
+            return availableCommands.filter(cmd =>
+                cmd.startsWith(normalized) && normalized !== ''
+            );
+        }
+
+        // Show autocomplete dropdown
+        function showAutocomplete(suggestions) {
+            if (suggestions.length === 0) {
+                autocompleteDropdown.classList.remove('show');
+                return;
+            }
+
+            autocompleteDropdown.innerHTML = suggestions.map((cmd, idx) => `
+                <div class="autocomplete-item" data-index="${idx}" data-command="${cmd}">
+                    <span>${cmd}</span>
+                    <span class="autocomplete-hint">${commands[cmd].help}</span>
+                </div>
+            `).join('');
+
+            autocompleteDropdown.classList.add('show');
+
+            // Add click handlers
+            document.querySelectorAll('.autocomplete-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    const cmd = item.dataset.command;
+                    input.value = cmd;
+                    autocompleteDropdown.classList.remove('show');
+                    input.focus();
+                });
+            });
+        }
+
+        // Execute command
+        function executeCommand(cmd) {
+            const trimmed = cmd.trim().toLowerCase();
+
+            if (!trimmed) {
+                return;
+            }
+
+            // Show command
+            appendOutput(trimmed, true);
+
+            // Special case: clear
+            if (trimmed === 'clear') {
+                output.innerHTML = '';
+                return;
+            }
+
+            // Special case: open
+            if (trimmed.startsWith('open ')) {
+                const link = trimmed.split(' ')[1];
+                if (link === 'github') {
+                    window.open('https://github.com/kei-portfolio', '_blank');
+                    appendOutput(`Opening GitHub profile...`, false);
+                } else {
+                    appendOutput(`Cannot open: ${link}. Try 'open github'`, false);
+                }
+                return;
+            }
+
+            // Regular command
+            if (commands[trimmed]) {
+                const result = commands[trimmed].execute();
+                if (result) {
+                    appendOutput(result, false);
+                }
+                commandHistory.push(trimmed);
+                historyIndex = -1;
+            } else {
+                appendOutput(`Command not found: ${trimmed}. Type 'help' for available commands.`, false);
+            }
+        }
+
+        // Input Event Listeners
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const cmd = input.value;
+                executeCommand(cmd);
+                input.value = '';
+                autocompleteDropdown.classList.remove('show');
+            } else if (e.key === 'Tab') {
+                e.preventDefault();
+                const suggestions = getAutocompleteSuggestions(input.value);
+                if (suggestions.length === 1) {
+                    input.value = suggestions[0];
+                    autocompleteDropdown.classList.remove('show');
+                }
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (commandHistory.length > 0) {
+                    historyIndex = Math.min(historyIndex + 1, commandHistory.length - 1);
+                    input.value = commandHistory[commandHistory.length - 1 - historyIndex];
+                }
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    input.value = commandHistory[commandHistory.length - 1 - historyIndex];
+                } else {
+                    historyIndex = -1;
+                    input.value = '';
+                }
+            }
+        });
+
+        input.addEventListener('input', (e) => {
+            const suggestions = getAutocompleteSuggestions(e.target.value);
+            showAutocomplete(suggestions);
+        });
+
+        // Close autocomplete when clicking elsewhere
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.input-wrapper')) {
+                autocompleteDropdown.classList.remove('show');
+            }
+        });
+
+        // Initialize
+        init();
+    </script>
+</body>
+</html>

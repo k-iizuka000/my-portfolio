@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kei | Full Stack Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Press Start 2P', 'DotGothic16', monospace;
+        }
+
+        body {
+            background-color: #0a0e27;
+            background-image:
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 255, 0, 0.03) 0px,
+                    rgba(0, 255, 0, 0.03) 1px,
+                    transparent 1px,
+                    transparent 2px
+                );
+            color: #00ff00;
+            overflow-x: hidden;
+        }
+
+        /* Retro Window Style */
+        .retro-window {
+            border: 3px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
+            background: linear-gradient(135deg, #000080, #1084d7);
+            box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #808080;
+            padding: 3px;
+        }
+
+        .retro-window-title {
+            background: linear-gradient(90deg, #000080 0%, #1084d7 100%);
+            color: #dfdfdf;
+            padding: 2px 2px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-bottom: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
+        }
+
+        .retro-window-button {
+            width: 16px;
+            height: 14px;
+            margin-left: 2px;
+            border: 1px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
+            background: linear-gradient(135deg, #c0c0c0 0%, #808080 100%);
+            font-size: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .retro-window-content {
+            background: #c0c0c0;
+            padding: 4px;
+            min-height: 100px;
+        }
+
+        /* Pixel Button */
+        .pixel-btn {
+            border: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
+            background: linear-gradient(135deg, #c0c0c0 0%, #808080 100%);
+            color: #000;
+            padding: 4px 8px;
+            font-size: 0.65rem;
+            cursor: pointer;
+            transition: all 0.05s;
+        }
+
+        .pixel-btn:active {
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            background: linear-gradient(135deg, #808080 0%, #c0c0c0 100%);
+        }
+
+        .pixel-btn:hover {
+            filter: brightness(1.1);
+        }
+
+        /* Neon Text */
+        .neon-green {
+            color: #00ff00;
+            text-shadow: 0 0 8px #00ff00, 0 0 16px #00ff00;
+        }
+
+        .neon-amber {
+            color: #ffaa00;
+            text-shadow: 0 0 8px #ffaa00, 0 0 16px #ffaa00;
+        }
+
+        .neon-blue {
+            color: #00ccff;
+            text-shadow: 0 0 8px #00ccff, 0 0 16px #00ccff;
+        }
+
+        /* Terminal Text */
+        .terminal-text {
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+            text-shadow: 0 0 4px #00ff00;
+            letter-spacing: 2px;
+        }
+
+        /* Pixel Border */
+        .pixel-border {
+            border: 3px solid #00ff00;
+            box-shadow: inset 0 0 0 1px #008800, 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        .pixel-border-amber {
+            border: 3px solid #ffaa00;
+            box-shadow: inset 0 0 0 1px #884400, 0 0 10px rgba(255, 170, 0, 0.3);
+        }
+
+        .pixel-border-blue {
+            border: 3px solid #00ccff;
+            box-shadow: inset 0 0 0 1px #004488, 0 0 10px rgba(0, 204, 255, 0.3);
+        }
+
+        /* CRT Scan Lines */
+        .crt-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15) 0px,
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Blinking Cursor */
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        .blink {
+            animation: blink 1s infinite;
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .float-animation {
+            animation: float 2s ease-in-out infinite;
+        }
+
+        /* Skill Badge */
+        .skill-badge {
+            display: inline-block;
+            border: 2px solid #00ff00;
+            padding: 3px 6px;
+            margin: 2px;
+            font-size: 0.6rem;
+            background: rgba(0, 255, 0, 0.1);
+            color: #00ff00;
+        }
+
+        .skill-badge.amber {
+            border-color: #ffaa00;
+            color: #ffaa00;
+            background: rgba(255, 170, 0, 0.1);
+        }
+
+        .skill-badge.blue {
+            border-color: #00ccff;
+            color: #00ccff;
+            background: rgba(0, 204, 255, 0.1);
+        }
+
+        /* Loading Animation */
+        @keyframes pixelLoad {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .pixel-progress {
+            height: 4px;
+            background: #333;
+            border: 1px solid #00ff00;
+            overflow: hidden;
+        }
+
+        .pixel-progress-bar {
+            height: 100%;
+            background: #00ff00;
+            animation: pixelLoad 2s ease-in-out;
+        }
+
+        /* Icon Pixel Style */
+        .pixel-icon {
+            width: 32px;
+            height: 32px;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        /* Link Styling */
+        a {
+            color: #00ff00;
+            text-decoration: none;
+            border-bottom: 1px dashed #00ff00;
+            transition: all 0.1s;
+        }
+
+        a:hover {
+            color: #ffaa00;
+            border-bottom-color: #ffaa00;
+            text-shadow: 0 0 8px #ffaa00;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            * {
+                font-size: 0.75rem !important;
+            }
+        }
+    </style>
+</head>
+<body class="crt-effect">
+    <div class="min-h-screen p-4 md:p-8">
+        <!-- Main Container -->
+        <div class="max-w-6xl mx-auto space-y-6">
+
+            <!-- HEADER WINDOW -->
+            <div class="retro-window">
+                <div class="retro-window-title">
+                    <span>📁 portfolio.exe - [C:\USERS\KEI\PORTFOLIO]</span>
+                    <div class="flex gap-1">
+                        <div class="retro-window-button">_</div>
+                        <div class="retro-window-button">□</div>
+                        <div class="retro-window-button">✕</div>
+                    </div>
+                </div>
+                <div class="retro-window-content">
+                    <div class="p-4 text-black space-y-2">
+                        <div class="terminal-text text-sm">
+                            > whoami<br>
+                            <span class="neon-green text-lg">KEI</span>
+                        </div>
+                        <div class="terminal-text text-sm mt-4">
+                            > role<br>
+                            <span class="neon-amber text-lg">Full Stack Engineer</span>
+                        </div>
+                        <div class="pixel-progress mt-4">
+                            <div class="pixel-progress-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HERO SECTION -->
+            <div class="relative">
+                <div class="pixel-border p-6 md:p-8 relative overflow-hidden float-animation">
+                    <div class="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-green-500 to-transparent opacity-10"></div>
+                    <div class="relative z-10">
+                        <h1 class="neon-green text-2xl md:text-4xl font-bold mb-2">
+                            &gt; KEI
+                        </h1>
+                        <h2 class="neon-amber text-lg md:text-2xl font-bold mb-4">
+                            [ Full Stack Engineer ]
+                        </h2>
+                        <p class="neon-blue text-xs md:text-sm leading-relaxed">
+                            10年以上の開発経験 | React・Vue・Next.js | Java・Python・Go |
+                            クラウドアーキテクチャ | DevOps・CI/CD
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKILLS SECTION -->
+            <div class="retro-window">
+                <div class="retro-window-title">
+                    <span>📁 SKILLS.DAT</span>
+                    <div class="flex gap-1">
+                        <div class="retro-window-button">_</div>
+                        <div class="retro-window-button">□</div>
+                        <div class="retro-window-button">✕</div>
+                    </div>
+                </div>
+                <div class="retro-window-content">
+                    <div class="p-4 text-black space-y-4">
+                        <!-- Frontend -->
+                        <div>
+                            <div class="font-bold text-xs mb-2">FRONTEND.EXE</div>
+                            <div class="flex flex-wrap">
+                                <span class="skill-badge">React</span>
+                                <span class="skill-badge">Vue.js</span>
+                                <span class="skill-badge">TypeScript</span>
+                                <span class="skill-badge">Tailwind</span>
+                                <span class="skill-badge">Next.js</span>
+                            </div>
+                        </div>
+
+                        <!-- Backend -->
+                        <div>
+                            <div class="font-bold text-xs mb-2">BACKEND.EXE</div>
+                            <div class="flex flex-wrap">
+                                <span class="skill-badge amber">Java</span>
+                                <span class="skill-badge amber">Spring Boot</span>
+                                <span class="skill-badge amber">Python</span>
+                                <span class="skill-badge amber">Go</span>
+                                <span class="skill-badge amber">Node.js</span>
+                            </div>
+                        </div>
+
+                        <!-- DevOps / Tools -->
+                        <div>
+                            <div class="font-bold text-xs mb-2">DEVOPS.SYS</div>
+                            <div class="flex flex-wrap">
+                                <span class="skill-badge blue">Docker</span>
+                                <span class="skill-badge blue">Kubernetes</span>
+                                <span class="skill-badge blue">AWS</span>
+                                <span class="skill-badge blue">Git</span>
+                                <span class="skill-badge blue">CI/CD</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJECTS SECTION -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Project 1 -->
+                <div class="pixel-border-amber p-4 bg-black bg-opacity-50">
+                    <div class="neon-amber text-sm font-bold mb-2">
+                        &gt; PROJECT_01.EXE
+                    </div>
+                    <p class="text-green-400 text-xs leading-relaxed mb-3">
+                        エンタープライズWebアプリケーション開発<br>
+                        React + TypeScript + Tailwind CSS<br>
+                        Spring Boot バックエンド<br>
+                        100+ ページの複雑なUI実装
+                    </p>
+                    <button class="pixel-btn">
+                        Open Link →
+                    </button>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="pixel-border-blue p-4 bg-black bg-opacity-50">
+                    <div class="neon-blue text-sm font-bold mb-2">
+                        &gt; PROJECT_02.EXE
+                    </div>
+                    <p class="text-green-400 text-xs leading-relaxed mb-3">
+                        マイクロサービスアーキテクチャ構築<br>
+                        Kubernetes + Docker<br>
+                        CI/CD パイプライン自動化<br>
+                        AWS 環境設計・運用
+                    </p>
+                    <button class="pixel-btn">
+                        Open Link →
+                    </button>
+                </div>
+            </div>
+
+            <!-- STATS SECTION -->
+            <div class="retro-window">
+                <div class="retro-window-title">
+                    <span>📊 STATS.TXT</span>
+                    <div class="flex gap-1">
+                        <div class="retro-window-button">_</div>
+                        <div class="retro-window-button">□</div>
+                        <div class="retro-window-button">✕</div>
+                    </div>
+                </div>
+                <div class="retro-window-content">
+                    <div class="p-4 text-black grid md:grid-cols-4 gap-4">
+                        <div class="border border-black p-2">
+                            <div class="font-bold text-lg neon-green">10+</div>
+                            <div class="text-xs">Years Exp</div>
+                        </div>
+                        <div class="border border-black p-2">
+                            <div class="font-bold text-lg neon-amber">50+</div>
+                            <div class="text-xs">Projects</div>
+                        </div>
+                        <div class="border border-black p-2">
+                            <div class="font-bold text-lg neon-blue">100%</div>
+                            <div class="text-xs">Dedicated</div>
+                        </div>
+                        <div class="border border-black p-2">
+                            <div class="font-bold text-lg">15+</div>
+                            <div class="text-xs">Languages</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTACT / SOCIAL -->
+            <div class="pixel-border p-6 bg-black bg-opacity-30">
+                <div class="neon-green text-lg font-bold mb-4">
+                    &gt; CONTACT [SYSTEMS]
+                </div>
+                <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                    <a href="https://github.com" class="pixel-btn">
+                        GitHub
+                    </a>
+                    <a href="https://twitter.com" class="pixel-btn">
+                        Twitter / X
+                    </a>
+                    <a href="mailto:kei@example.com" class="pixel-btn">
+                        Email
+                    </a>
+                    <a href="https://linkedin.com" class="pixel-btn">
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="text-center space-y-2">
+                <div class="terminal-text text-green-500 text-xs">
+                    > system ready_<span class="blink">█</span>
+                </div>
+                <div class="text-green-600 text-xs opacity-70">
+                    © 2025 KEI SYSTEMS | Retro Mode Enabled
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Add interactive hover effects
+        document.querySelectorAll('.pixel-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 50);
+            });
+        });
+
+        // Simulated cursor blinking effect
+        const footer = document.querySelector('.terminal-text');
+        if (footer) {
+            setInterval(() => {
+                const blink = footer.querySelector('.blink');
+                if (blink) {
+                    blink.style.opacity = blink.style.opacity === '0' ? '1' : '0';
+                }
+            }, 500);
+        }
+    </script>
+</body>
+</html>
