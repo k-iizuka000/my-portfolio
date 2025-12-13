@@ -81,6 +81,19 @@
     text-shadow: var(--crt-glow);
   }
 
+  /* Text glow effect (mock compatible) */
+  .text-glow {
+    text-shadow:
+      0 0 5px rgba(74, 222, 128, 0.8),
+      0 0 15px rgba(74, 222, 128, 0.5),
+      0 0 30px rgba(74, 222, 128, 0.3);
+  }
+
+  /* CRT container glow effect (mock compatible) */
+  .crt-glow {
+    box-shadow: 0 0 15px rgba(74, 222, 128, 0.3), inset 0 0 15px rgba(74, 222, 128, 0.1);
+  }
+
   .scanlines {
     position: relative;
   }

@@ -10,13 +10,15 @@ export default function AutoCompleteList({
   if (suggestions.length === 0) return null;
 
   return (
-    <div className="mb-2 text-sm">
+    <div role="listbox" aria-label="補完候補" className="mb-2 text-sm">
       {suggestions.map((suggestion, index) => (
         <div
           key={suggestion}
+          role="option"
+          aria-selected={index === activeIndex}
           className={`px-2 py-1 ${
             index === activeIndex
-              ? "bg-phosphor/20 text-phosphor"
+              ? "bg-phosphor/20 text-phosphor text-glow"
               : "text-phosphorDim"
           }`}
         >

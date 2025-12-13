@@ -45,6 +45,70 @@ export type CommandResult =
   | { kind: "outputs"; outputs: Output[] }
   | { kind: "clear" };
 
+// ===== Skills =====
+export type SkillLevel = 1 | 2 | 3 | 4 | 5;
+
+export type SkillItem = {
+  name: string;
+  level: SkillLevel;
+  levelLabel?: "BASIC" | "INTERMEDIATE" | "ADVANCED" | "EXPERT";
+  years?: number;
+  keywords?: string[];
+  note?: string;
+};
+
+export type SkillGroup = {
+  category: string;
+  items: SkillItem[];
+};
+
+export type OutputSkills = {
+  type: "skills";
+  title?: string;
+  groups: SkillGroup[];
+  legend?: { bar?: string };
+};
+
+// ===== Project =====
+export type ProjectImpact = {
+  summary?: string;
+  metrics?: { label: string; value: string }[];
+};
+
+export type Project = {
+  title: string;
+  period?: string;
+  domain?: "BtoC" | "BtoB" | "Internal" | string;
+  role?: string;
+  team?: string;
+  stack?: string[];
+  scope?: string[];
+  achievements?: string[];
+  impact?: ProjectImpact;
+  highlights?: string[];
+};
+
+export type OutputProject = {
+  type: "project";
+  project: Project;
+};
+
+// ===== Demo =====
+export type DemoItem = {
+  label: string;
+  href: string;
+  external?: boolean;
+  description?: string;
+  tech?: string[];
+  note?: string;
+};
+
+export type OutputDemo = {
+  type: "demo";
+  title?: string;
+  items: DemoItem[];
+};
+
 /**
  * ターミナル出力の型
  */
@@ -57,4 +121,7 @@ export type Output =
       title?: string;
       items: { label: string; href: string; external?: boolean }[];
     } // リンクリスト
+  | OutputSkills
+  | OutputProject
+  | OutputDemo
   | { type: "error"; text: string }; // エラーメッセージ
