@@ -234,7 +234,7 @@ export default function OutputBlock({ output, index, canStart = true, onComplete
                   </a>
                 ) : (
                   <Link
-                    href={withBasePath(d.href)}
+                    href={d.href}
                     className="text-phosphor"
                     aria-label={d.label}
                   >
