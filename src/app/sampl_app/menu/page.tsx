@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion, type Variants } from 'framer-motion';
 import { Lora, Noto_Sans_JP } from 'next/font/google';
+import { withBasePath } from '@/lib/basePath';
 
 const lora = Lora({
   subsets: ['latin'],
@@ -68,7 +69,7 @@ export default function MenuPage() {
       {/* ヘッダー */}
       <header className="sticky top-0 z-50 backdrop-blur-md border-b" style={{ backgroundColor: 'rgba(253, 248, 243, 0.9)', borderColor: '#D4C4B0' }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <Link href="/sampl_app" className="flex items-center gap-2 text-lg font-medium transition-all duration-300 hover:scale-105" style={{ color: '#2D5A45' }}>
+          <Link href={withBasePath('/sampl_app')} className="flex items-center gap-2 text-lg font-medium transition-all duration-300 hover:scale-105" style={{ color: '#2D5A45' }}>
             <span>←</span>
             <span>TOP</span>
           </Link>
@@ -213,7 +214,7 @@ export default function MenuPage() {
             transition={{ duration: 0.5 }}
           >
             <Link
-              href="/sampl_app"
+              href={withBasePath('/sampl_app')}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 hover:scale-105 shadow-md"
               style={{
                 backgroundColor: '#2D5A45',
