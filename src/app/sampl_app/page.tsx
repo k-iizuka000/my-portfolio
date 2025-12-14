@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Lora, Noto_Sans_JP } from 'next/font/google';
-import { withBasePath } from '@/lib/basePath';
 
 const lora = Lora({
   subsets: ['latin'],
@@ -114,7 +113,7 @@ export default function BotanicalBrewTop() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
           >
-            <Link href={withBasePath("/sampl_app/menu")}>
+            <Link href="/sampl_app/menu">
               <motion.button
                 className="bg-[#2D5A45] text-[#FDF8F3] px-10 py-4 rounded-full text-lg font-medium shadow-lg hover:bg-[#E07A5F] transition-colors duration-300"
                 whileHover={{ scale: 1.05 }}
