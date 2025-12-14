@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { useTypewriter } from "./hooks/useTypewriter";
 import type { Output, SkillLevel } from "./lib/types";
+import { withBasePath } from "@/lib/basePath";
 
 interface OutputBlockProps {
   output: Output;
@@ -98,7 +100,7 @@ export default function OutputBlock({ output, index, canStart = true, onComplete
           {output.items.map((link, i) => (
             <div key={`link-${link.label}-${i}`} role="listitem">
               <a
-                href={link.href}
+                href={link.external ? link.href : withBasePath(link.href)}
                 target={link.external ? "_blank" : undefined}
                 rel={link.external ? "noopener noreferrer" : undefined}
                 aria-label={link.external ? `${link.label} (新しいタブで開く)` : link.label}
@@ -219,16 +221,26 @@ export default function OutputBlock({ output, index, canStart = true, onComplete
             <div key={`${d.label}:${d.href}:${i}`} className="text-phosphorDim" role="listitem">
               <div>
                 <span>• </span>
-                <a
-                  href={d.href}
-                  target={d.external ? "_blank" : undefined}
-                  rel={d.external ? "noopener noreferrer" : undefined}
-                  className="text-phosphor"
-                  aria-label={d.external ? `${d.label} (新しいタブで開く)` : d.label}
-                >
-                  {d.label}
-                  {d.external && <span aria-hidden="true"> ↗</span>}
-                </a>
+                {d.external ? (
+                  <a
+                    href={d.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-phosphor"
+                    aria-label={`${d.label} (新しいタブで開く)`}
+                  >
+                    {d.label}
+                    <span aria-hidden="true"> ↗</span>
+                  </a>
+                ) : (
+                  <Link
+                    href={withBasePath(d.href)}
+                    className="text-phosphor"
+                    aria-label={d.label}
+                  >
+                    {d.label}
+                  </Link>
+                )}
                 {d.note ? <span>{`  [${d.note}]`}</span> : null}
               </div>
               {(d.description || d.tech?.length) && (
